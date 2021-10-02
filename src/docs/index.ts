@@ -1,5 +1,5 @@
-import userDocs from '@Docs/user'
+import breederDocs from './breeder'
 
 export default {
-  ...userDocs
+  ...breederDocs,
 }
