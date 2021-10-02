@@ -3,10 +3,6 @@ import faker from 'faker'
 
 import App from '@Configs/server'
 
-jest.mock('typeorm', () => ({
-  createConnection: jest.fn().mockResolvedValue({})
-}))
-
 describe('User actions', () => {
   describe('Register', () => {
     it('is a valid user', async () => {
