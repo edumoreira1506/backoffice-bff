@@ -24,11 +24,11 @@ describe('Breeder actions', () => {
       jest.spyOn(AccountServiceClient, 'getUser').mockImplementation(mockGetUser)
       jest.spyOn(BreederServiceClient, 'getBreeders').mockImplementation(mockGetBreeders)
 
-      const response = await request(App).patch(`/v1/breeders/${breeder.id}`).send({ breeder: newBreeder }).set('X-Cig-Token', token)
+      const response = await request(App).patch(`/v1/breeders/${breeder.id}`).send(newBreeder).set('X-Cig-Token', token)
 
       expect(response.statusCode).toBe(200)
       expect(response.body.message).toBe(i18n.__('common.updated'))
-      expect(mockUpdateBreeder).toHaveBeenCalledWith(breeder.id, newBreeder)
+      expect(mockUpdateBreeder).toHaveBeenCalledWith(breeder.id, { ...newBreeder, files: undefined })
       expect(mockOpen).toHaveBeenCalledWith(token)
       expect(mockGetUser).toHaveBeenCalledWith(user.id)
       expect(mockGetBreeders).toHaveBeenCalledWith(user.id)
@@ -49,7 +49,7 @@ describe('Breeder actions', () => {
       jest.spyOn(AccountServiceClient, 'getUser').mockImplementation(mockGetUser)
       jest.spyOn(BreederServiceClient, 'getBreeders').mockImplementation(mockGetBreeders)
 
-      const response = await request(App).patch(`/v1/breeders/${breeder.id}`).send({ breeder: newBreeder })
+      const response = await request(App).patch(`/v1/breeders/${breeder.id}`).send(newBreeder)
 
       expect(response.statusCode).toBe(400)
       expect(response.body).toMatchObject({

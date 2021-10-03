@@ -12,10 +12,11 @@ class BreederController {
   @BaseController.errorHandler()
   @BaseController.actionHandler(i18n.__('common.updated'))
   async update(req: Request) {
-    const breeder = req.body.breeder
+    const breeder = req.body
+    const files = req.files
     const breederId = req.params.breederId
 
-    await BreederServiceClient.updateBreeder(breederId, breeder)
+    await BreederServiceClient.updateBreeder(breederId, { ...breeder, files })
   }
 }
 
