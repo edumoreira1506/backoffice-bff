@@ -13,14 +13,14 @@ describe('Breeder actions', () => {
     it('is a valid update', async () => {
       const breeder = breederFactory()
       const user = userFactory()
-      const mockUpdateBreeder = jest.fn()
       const mockOpen = jest.fn().mockReturnValue(user)
       const mockGetUser = jest.fn().mockResolvedValue(user)
       const mockGetBreeders = jest.fn().mockResolvedValue([breeder])
       const newBreeder = {}
       const token = 'fake token'
+      const mockUpdateBreederInfo: any = jest.fn()
 
-      jest.spyOn(PoultryServiceClient, 'updateBreeder').mockImplementation(mockUpdateBreeder)
+      jest.spyOn(BreederAggregator, 'updateBreederInfo').mockImplementation(mockUpdateBreederInfo)
       jest.spyOn(TokenService, 'open').mockImplementation(mockOpen)
       jest.spyOn(AccountServiceClient, 'getUser').mockImplementation(mockGetUser)
       jest.spyOn(PoultryServiceClient, 'getBreeders').mockImplementation(mockGetBreeders)
@@ -29,7 +29,6 @@ describe('Breeder actions', () => {
 
       expect(response.statusCode).toBe(200)
       expect(response.body.message).toBe(i18n.__('common.updated'))
-      expect(mockUpdateBreeder).toHaveBeenCalledWith(breeder.id, { ...newBreeder, files: undefined })
       expect(mockOpen).toHaveBeenCalledWith(token)
       expect(mockGetUser).toHaveBeenCalledWith(user.id)
       expect(mockGetBreeders).toHaveBeenCalledWith(user.id)

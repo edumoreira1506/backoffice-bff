@@ -1,7 +1,6 @@
 import { Request, Response } from 'express'
 import { BaseController } from '@cig-platform/core'
 
-import PoultryServiceClient from '@Clients/PoultryServiceClient'
 import i18n from '@Configs/i18n'
 import BreederAggregator from '@Aggregators/BreederAggregator'
 
@@ -15,10 +14,15 @@ class BreederController {
   @BaseController.actionHandler(i18n.__('common.updated'))
   async update(req: Request) {
     const breeder = req.body
-    const files = req.files
+    const files = (req.files ?? {}) as Record<string, any[]>
+    const deletedImages = (breeder?.deletedImages ?? '').split(',')
+
+    delete breeder['deletedImages']
+
+    const newImages = files.newImages
     const breederId = req.params.breederId
 
-    await PoultryServiceClient.updateBreeder(breederId, { ...breeder, files })
+    await BreederAggregator.updateBreederInfo(breederId, { ...breeder, files: files.files }, deletedImages, newImages)
   }
 
   @BaseController.errorHandler()

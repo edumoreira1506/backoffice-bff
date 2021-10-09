@@ -8,8 +8,9 @@ const breederDocs = {
       method: 'patch',
       title: 'Update breeder',
       description: 'Route to update breeder',
-      objectSchema: updateBreederSchema,
-      headerParams: [{ type: 'string', name: 'X-Cig-Token' }]
+      headerParams: [{ type: 'string', name: 'X-Cig-Token' }],
+      files: ['files', 'newImages'],
+      objectSchema: updateBreederSchema
     },
     {
       method: 'get',
