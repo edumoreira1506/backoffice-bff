@@ -1,3 +1,4 @@
+import faker from 'faker'
 import { breederFactory } from '@cig-platform/factories'
 
 import { BreederAggregator } from '@Aggregators/BreederAggregator'
@@ -18,6 +19,57 @@ describe('BreederAggregator', () => {
         ...breederInfo,
         images
       })
+    })
+  })
+
+  describe('.updateBreederInfo', () => {
+    it('removes the deletedImages', async () => {
+      const breeder = breederFactory()
+      const breederId = breeder.id
+      const deletedImages = [faker.datatype.uuid()]
+      const mockPoultryServiceClient: any = {
+        removeBreederImage: jest.fn(),
+        updateBreeder: jest.fn()
+      }
+      const breederAggregator = new BreederAggregator(mockPoultryServiceClient)
+
+      await breederAggregator.updateBreederInfo(breederId, breeder, deletedImages)
+
+      expect(mockPoultryServiceClient.removeBreederImage).toHaveBeenCalledTimes(1)
+      expect(mockPoultryServiceClient.removeBreederImage).toHaveBeenCalledWith(breederId, deletedImages[0])
+    })
+
+    it('register the new images', async () => {
+      const breeder = breederFactory()
+      const breederId = breeder.id
+      const deletedImages: any[] = []
+      const newImages: any[] = ['']
+      const mockPoultryServiceClient: any = {
+        removeBreederImage: jest.fn(),
+        updateBreeder: jest.fn(),
+        postBreederImages: jest.fn()
+      }
+      const breederAggregator = new BreederAggregator(mockPoultryServiceClient)
+
+      await breederAggregator.updateBreederInfo(breederId, breeder, deletedImages, newImages)
+
+      expect(mockPoultryServiceClient.postBreederImages).toHaveBeenCalledWith(breederId, newImages)
+    })
+
+    it('updates the breeder', async () => {
+      const breeder = breederFactory()
+      const breederId = breeder.id
+      const deletedImages: any[] = []
+      const mockPoultryServiceClient: any = {
+        removeBreederImage: jest.fn(),
+        updateBreeder: jest.fn(),
+        postBreederImages: jest.fn()
+      }
+      const breederAggregator = new BreederAggregator(mockPoultryServiceClient)
+
+      await breederAggregator.updateBreederInfo(breederId, breeder, deletedImages)
+
+      expect(mockPoultryServiceClient.updateBreeder).toHaveBeenCalledWith(breederId, breeder)
     })
   })
 })

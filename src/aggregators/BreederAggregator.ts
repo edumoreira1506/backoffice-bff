@@ -19,7 +19,7 @@ export class BreederAggregator {
     return { ...breeder, images: breederImages }
   }
 
-  async updateBreederInfo(breederId: string, breeder: Partial<IBreeder>, deletedImages: string[], newImages: File[]) {
+  async updateBreederInfo(breederId: string, breeder: Partial<IBreeder>, deletedImages: string[], newImages?: File[]) {
     deletedImages.forEach(async (breederImageId) => {
       await this._poultryServiceClient.removeBreederImage(breederId, breederImageId)
     })
