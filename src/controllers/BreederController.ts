@@ -1,12 +1,14 @@
-import { Request } from 'express'
+import { Request, Response } from 'express'
 import { BaseController } from '@cig-platform/core'
 
-import BreederServiceClient from '@Clients/BreederServiceClient'
+import PoultryServiceClient from '@Clients/PoultryServiceClient'
 import i18n from '@Configs/i18n'
+import BreederAggregator from '@Aggregators/BreederAggregator'
 
 class BreederController {
   constructor() {
     this.update = this.update.bind(this)
+    this.show = this.show.bind(this)
   }
 
   @BaseController.errorHandler()
@@ -16,7 +18,15 @@ class BreederController {
     const files = req.files
     const breederId = req.params.breederId
 
-    await BreederServiceClient.updateBreeder(breederId, { ...breeder, files })
+    await PoultryServiceClient.updateBreeder(breederId, { ...breeder, files })
+  }
+
+  @BaseController.errorHandler()
+  async show(req: Request, res: Response) {
+    const breederId = req.params.breederId
+    const breeder = await BreederAggregator.getBreederInfo(breederId)
+
+    return BaseController.successResponse(res, { breeder })
   }
 }
 

@@ -3,7 +3,7 @@ import { breederFactory, userFactory } from '@cig-platform/factories'
 
 import App from '@Configs/server'
 import i18n from '@Configs/i18n'
-import BreederServiceClient from '@Clients/BreederServiceClient'
+import PoultryServiceClient from '@Clients/PoultryServiceClient'
 import AccountServiceClient from '@Clients/AccoutnServiceClient'
 import TokenService from '@Services/TokenService'
 
@@ -19,10 +19,10 @@ describe('Breeder actions', () => {
       const newBreeder = {}
       const token = 'fake token'
 
-      jest.spyOn(BreederServiceClient, 'updateBreeder').mockImplementation(mockUpdateBreeder)
+      jest.spyOn(PoultryServiceClient, 'updateBreeder').mockImplementation(mockUpdateBreeder)
       jest.spyOn(TokenService, 'open').mockImplementation(mockOpen)
       jest.spyOn(AccountServiceClient, 'getUser').mockImplementation(mockGetUser)
-      jest.spyOn(BreederServiceClient, 'getBreeders').mockImplementation(mockGetBreeders)
+      jest.spyOn(PoultryServiceClient, 'getBreeders').mockImplementation(mockGetBreeders)
 
       const response = await request(App).patch(`/v1/breeders/${breeder.id}`).send(newBreeder).set('X-Cig-Token', token)
 
@@ -44,10 +44,10 @@ describe('Breeder actions', () => {
       const newBreeder = {}
       const token = 'fake token'
 
-      jest.spyOn(BreederServiceClient, 'updateBreeder').mockImplementation(mockUpdateBreeder)
+      jest.spyOn(PoultryServiceClient, 'updateBreeder').mockImplementation(mockUpdateBreeder)
       jest.spyOn(TokenService, 'open').mockImplementation(mockOpen)
       jest.spyOn(AccountServiceClient, 'getUser').mockImplementation(mockGetUser)
-      jest.spyOn(BreederServiceClient, 'getBreeders').mockImplementation(mockGetBreeders)
+      jest.spyOn(PoultryServiceClient, 'getBreeders').mockImplementation(mockGetBreeders)
 
       const response = await request(App).patch(`/v1/breeders/${breeder.id}`).send(newBreeder)
 
