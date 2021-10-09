@@ -6,6 +6,7 @@ import i18n from '@Configs/i18n'
 import PoultryServiceClient from '@Clients/PoultryServiceClient'
 import AccountServiceClient from '@Clients/AccoutnServiceClient'
 import TokenService from '@Services/TokenService'
+import BreederAggregator from '@Aggregators/BreederAggregator'
 
 describe('Breeder actions', () => {
   describe('Update', () => {
@@ -63,6 +64,38 @@ describe('Breeder actions', () => {
       expect(mockOpen).not.toHaveBeenCalledWith(token)
       expect(mockGetUser).not.toHaveBeenCalledWith(user.id)
       expect(mockGetBreeders).not.toHaveBeenCalledWith(user.id)
+    })
+  })
+
+  describe('Show', () => {
+    it('returns the breeder when is a valid request', async () => {
+      const breeder = breederFactory({ description: 'Nice description' })
+      const user = userFactory()
+      const mockGetBreederInfo = jest.fn().mockResolvedValue(breeder)
+      const mockOpen = jest.fn().mockReturnValue(user)
+      const mockGetUser = jest.fn().mockResolvedValue(user)
+      const mockGetBreeders = jest.fn().mockResolvedValue([breeder])
+      const token = 'fake token'
+
+      jest.spyOn(BreederAggregator, 'getBreederInfo').mockImplementation(mockGetBreederInfo)
+      jest.spyOn(TokenService, 'open').mockImplementation(mockOpen)
+      jest.spyOn(AccountServiceClient, 'getUser').mockImplementation(mockGetUser)
+      jest.spyOn(PoultryServiceClient, 'getBreeders').mockImplementation(mockGetBreeders)
+
+      const response = await request(App).get(`/v1/breeders/${breeder.id}`).set('X-Cig-Token', token)
+
+      expect(response.statusCode).toBe(200)
+      expect(response.body).toMatchObject({
+        ok: true,
+        breeder: {
+          ...breeder,
+          foundationDate: breeder.foundationDate.toISOString(),
+        }
+      })
+      expect(mockGetBreederInfo).toHaveBeenCalledWith(breeder.id)
+      expect(mockOpen).toHaveBeenCalledWith(token)
+      expect(mockGetUser).toHaveBeenCalledWith(user.id)
+      expect(mockGetBreeders).toHaveBeenCalledWith(user.id)
     })
   })
 })
