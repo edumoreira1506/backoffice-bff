@@ -21,7 +21,7 @@ class BreederController {
 
     const newImages = files.newImages
     const breederId = req.params.breederId
-    console.log('até aqui safe')
+
     await BreederAggregator.updateBreederInfo(breederId, { ...breeder, files: files.files }, deletedImages, newImages)
   }
 
