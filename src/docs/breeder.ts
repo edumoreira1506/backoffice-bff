@@ -1,5 +1,7 @@
 import { createDoc } from '@cig-platform/docs'
 
+import { updateBreederSchema } from '@Schemas/BreederSchemas'
+
 const breederDocs = {
   ...createDoc('/breeders/{breederId}', ['Breeders'], [
     {
@@ -7,7 +9,8 @@ const breederDocs = {
       title: 'Update breeder',
       description: 'Route to update breeder',
       headerParams: [{ type: 'string', name: 'X-Cig-Token' }],
-      files: ['files', 'deletedFiles', 'newFiles']
+      files: ['files', 'newImages'],
+      objectSchema: updateBreederSchema
     },
     {
       method: 'get',

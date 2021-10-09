@@ -11,7 +11,7 @@ router.patch(
   '/breeders/:breederId',
   withTokenAuthorization,
   withBreederPermission,
-  withFileSupportFactory(['deletedFiles', 'newFiles']),
+  withFileSupportFactory(['newImages']),
   BreederController.update,
 )
 

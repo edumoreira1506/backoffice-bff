@@ -14,10 +14,15 @@ class BreederController {
   @BaseController.actionHandler(i18n.__('common.updated'))
   async update(req: Request) {
     const breeder = req.body
-    const files = (req.files as any).files
-    const breederId = req.params.breederId
+    const files = (req.files ?? {}) as Record<string, any[]>
+    const deletedImages = (breeder?.deletedImages ?? '').split(',')
 
-    await BreederAggregator.updateBreederInfo(breederId, { ...breeder, files })
+    delete breeder['deletedImages']
+
+    const newImages = files.newImages
+    const breederId = req.params.breederId
+    console.log('até aqui safe')
+    await BreederAggregator.updateBreederInfo(breederId, { ...breeder, files: files.files }, deletedImages, newImages)
   }
 
   @BaseController.errorHandler()
