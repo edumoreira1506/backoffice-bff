@@ -1,7 +1,6 @@
 import { Request, Response } from 'express'
 import { BaseController } from '@cig-platform/core'
 
-import PoultryServiceClient from '@Clients/PoultryServiceClient'
 import i18n from '@Configs/i18n'
 import BreederAggregator from '@Aggregators/BreederAggregator'
 
@@ -18,7 +17,7 @@ class BreederController {
     const files = (req.files as any).files
     const breederId = req.params.breederId
 
-    await PoultryServiceClient.updateBreeder(breederId, { ...breeder, files })
+    await BreederAggregator.updateBreederInfo(breederId, { ...breeder, files })
   }
 
   @BaseController.errorHandler()
