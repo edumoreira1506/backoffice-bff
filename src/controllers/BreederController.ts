@@ -15,7 +15,7 @@ class BreederController {
   @BaseController.actionHandler(i18n.__('common.updated'))
   async update(req: Request) {
     const breeder = req.body
-    const files = req.files
+    const files = (req.files as any).files
     const breederId = req.params.breederId
 
     await PoultryServiceClient.updateBreeder(breederId, { ...breeder, files })
