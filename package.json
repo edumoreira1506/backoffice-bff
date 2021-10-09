@@ -16,7 +16,7 @@
 	"bugs": {},
 	"homepage": "",
 	"dependencies": {
-		"@cig-platform/core": "^0.4.16",
+		"@cig-platform/core": "^0.5.1",
 		"@cig-platform/docs": "^0.4.6",
 		"cors": "^2.8.5",
 		"dotenv": "^10.0.0",
