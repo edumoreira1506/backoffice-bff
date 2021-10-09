@@ -7,17 +7,17 @@ describe('withBreederPermission', () => {
     const user = userFactory()
     const breeder = breederFactory()
     const mockErrorCallback = jest.fn()
-    const mockBreederServiceClient: any = {
+    const mockPoultryServiceClient: any = {
       getBreeders: jest.fn().mockResolvedValue([breeder])
     }
-    const withBreederPermission = withBreederPermisionFactory(mockErrorCallback, mockBreederServiceClient)
+    const withBreederPermission = withBreederPermisionFactory(mockErrorCallback, mockPoultryServiceClient)
     const mockRequest: any = { user, params: { breederId: breeder.id } }
     const mockResponse: any = {}
     const mockNext = jest.fn()
 
     await withBreederPermission(mockRequest, mockResponse, mockNext)
 
-    expect(mockBreederServiceClient.getBreeders).toHaveBeenCalledWith(user.id)
+    expect(mockPoultryServiceClient.getBreeders).toHaveBeenCalledWith(user.id)
     expect(mockErrorCallback).not.toHaveBeenCalled()
     expect(mockNext).toHaveBeenCalled()
   })
@@ -26,17 +26,17 @@ describe('withBreederPermission', () => {
     const user = userFactory()
     const breeder = breederFactory()
     const mockErrorCallback = jest.fn()
-    const mockBreederServiceClient: any = {
+    const mockPoultryServiceClient: any = {
       getBreeders: jest.fn().mockResolvedValue([breeder])
     }
-    const withBreederPermission = withBreederPermisionFactory(mockErrorCallback, mockBreederServiceClient)
+    const withBreederPermission = withBreederPermisionFactory(mockErrorCallback, mockPoultryServiceClient)
     const mockRequest: any = { params: { breederId: breeder.id } }
     const mockResponse: any = {}
     const mockNext = jest.fn()
 
     await withBreederPermission(mockRequest, mockResponse, mockNext)
 
-    expect(mockBreederServiceClient.getBreeders).not.toHaveBeenCalledWith(user.id)
+    expect(mockPoultryServiceClient.getBreeders).not.toHaveBeenCalledWith(user.id)
     expect(mockErrorCallback).toHaveBeenCalled()
     expect(mockNext).not.toHaveBeenCalled()
   })
@@ -45,17 +45,17 @@ describe('withBreederPermission', () => {
     const user = userFactory()
     const breeder = breederFactory()
     const mockErrorCallback = jest.fn()
-    const mockBreederServiceClient: any = {
+    const mockPoultryServiceClient: any = {
       getBreeders: jest.fn().mockResolvedValue([breeder])
     }
-    const withBreederPermission = withBreederPermisionFactory(mockErrorCallback, mockBreederServiceClient)
+    const withBreederPermission = withBreederPermisionFactory(mockErrorCallback, mockPoultryServiceClient)
     const mockRequest: any = { user }
     const mockResponse: any = {}
     const mockNext = jest.fn()
 
     await withBreederPermission(mockRequest, mockResponse, mockNext)
 
-    expect(mockBreederServiceClient.getBreeders).not.toHaveBeenCalledWith(user.id)
+    expect(mockPoultryServiceClient.getBreeders).not.toHaveBeenCalledWith(user.id)
     expect(mockErrorCallback).toHaveBeenCalled()
     expect(mockNext).not.toHaveBeenCalled()
   })
@@ -64,17 +64,17 @@ describe('withBreederPermission', () => {
     const user = userFactory()
     const breeder = breederFactory()
     const mockErrorCallback = jest.fn()
-    const mockBreederServiceClient: any = {
+    const mockPoultryServiceClient: any = {
       getBreeders: jest.fn().mockResolvedValue([])
     }
-    const withBreederPermission = withBreederPermisionFactory(mockErrorCallback, mockBreederServiceClient)
+    const withBreederPermission = withBreederPermisionFactory(mockErrorCallback, mockPoultryServiceClient)
     const mockRequest: any = { user, params: { breederId: breeder.id } }
     const mockResponse: any = {}
     const mockNext = jest.fn()
 
     await withBreederPermission(mockRequest, mockResponse, mockNext)
 
-    expect(mockBreederServiceClient.getBreeders).toHaveBeenCalledWith(user.id)
+    expect(mockPoultryServiceClient.getBreeders).toHaveBeenCalledWith(user.id)
     expect(mockErrorCallback).toHaveBeenCalled()
     expect(mockNext).not.toHaveBeenCalled()
   })

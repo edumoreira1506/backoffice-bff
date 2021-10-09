@@ -21,6 +21,9 @@
     "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
     "paths": {
+      "@Aggregators/*": [
+        "src/aggregators/*"
+      ],
       "@Configs/*": [
         "src/configs/*"
       ],

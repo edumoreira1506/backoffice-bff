@@ -9,4 +9,6 @@ const router = express.Router()
 
 router.patch('/breeders/:breederId', withTokenAuthorization, withBreederPermission, withFileSupport, BreederController.update)
 
+router.get('/breeders/:breederId', withTokenAuthorization, withBreederPermission, BreederController.show)
+
 export default router

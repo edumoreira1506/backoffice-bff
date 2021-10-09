@@ -1,11 +1,11 @@
 import { NextFunction, Response } from 'express'
-import { AuthError, BaseController, BreederServiceClient } from '@cig-platform/core'
+import { AuthError, BaseController, PoultryServiceClient } from '@cig-platform/core'
 import { ApiErrorType } from '@cig-platform/types'
 
 import { AuthenticatedRequest } from '@Types/request'
-import BreederClient from '@Clients/BreederServiceClient'
+import BreederClient from '@Clients/PoultryServiceClient'
 
-export const withBreederPermisionFactory = (errorCallback: (res: Response, error: ApiErrorType) => Response, breederServiceClient: BreederServiceClient) => async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
+export const withBreederPermisionFactory = (errorCallback: (res: Response, error: ApiErrorType) => Response, poultryServiceClient: PoultryServiceClient) => async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
   try {
     const user = req.user
 
@@ -15,7 +15,7 @@ export const withBreederPermisionFactory = (errorCallback: (res: Response, error
 
     if (!breederId) throw new AuthError()
 
-    const breeders = await breederServiceClient.getBreeders(user.id)
+    const breeders = await poultryServiceClient.getBreeders(user.id)
     const breedersIds = breeders.map(breeder => breeder.id)
 
     if (!breedersIds.includes(breederId)) throw new AuthError()
