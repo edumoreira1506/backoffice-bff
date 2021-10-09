@@ -7,7 +7,7 @@ const breederDocs = {
       title: 'Update breeder',
       description: 'Route to update breeder',
       headerParams: [{ type: 'string', name: 'X-Cig-Token' }],
-      files: ['files']
+      files: ['files', 'deletedFiles', 'newFiles']
     },
     {
       method: 'get',
