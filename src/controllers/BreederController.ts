@@ -22,7 +22,12 @@ class BreederController {
     const newImages = files.newImages
     const breederId = req.params.breederId
 
-    await BreederAggregator.updateBreederInfo(breederId, { ...breeder, files: files.files }, deletedImages, newImages)
+    await BreederAggregator.updateBreederInfo(
+      breederId,
+      { ...breeder, ...(files.files ? ({ files: files.files }) : ({})) },
+      deletedImages,
+      newImages
+    )
   }
 
   @BaseController.errorHandler()
