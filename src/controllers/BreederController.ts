@@ -15,7 +15,7 @@ class BreederController {
   async update(req: Request) {
     const breeder = req.body
     const files = (req.files ?? {}) as Record<string, any[]>
-    const deletedImages = (breeder?.deletedImages ?? '').split(',')
+    const deletedImages = (breeder?.deletedImages ?? '').split(',').filter(Boolean)
 
     delete breeder['deletedImages']
 
