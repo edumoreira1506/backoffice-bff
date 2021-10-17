@@ -1,9 +1,14 @@
 import express from 'express'
+import { withBodyValidation } from '@cig-platform/core'
 
 import withBreederPermission from '@Middlewares/withBreederPermission'
 import withTokenAuthorization from '@Middlewares/withTokenAuthoritzation'
-import BreederController from '@Controllers/BreederController'
 import { withFileSupportFactory } from '@Middlewares/withFileSupport'
+
+import BreederController from '@Controllers/BreederController'
+import PoultryController from '@Controllers/PoultryController'
+
+import { storePoultrySchema } from '@Schemas/PoultrySchemas'
 
 const router = express.Router()
 
@@ -16,5 +21,13 @@ router.patch(
 )
 
 router.get('/breeders/:breederId', withTokenAuthorization, withBreederPermission, BreederController.show)
+
+router.post(
+  '/breeders/:breederId/poultries',
+  withTokenAuthorization,
+  withBreederPermission,
+  withBodyValidation(storePoultrySchema),
+  PoultryController.store
+)
 
 export default router
