@@ -28,6 +28,12 @@ const breederDocs = {
       headerParams: [{ type: 'string', name: 'X-Cig-Token' }],
       objectSchema: storePoultrySchema
     },
+    {
+      method: 'get',
+      title: 'Get poultries',
+      description: 'Route to get poultries',
+      headerParams: [{ type: 'string', name: 'X-Cig-Token' }],
+    }
   ], { pathVariables: [{ type: 'string', name: 'breederId' }] }),
 }
 

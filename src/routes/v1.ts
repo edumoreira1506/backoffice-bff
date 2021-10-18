@@ -30,4 +30,11 @@ router.post(
   PoultryController.store
 )
 
+router.get(
+  '/breeders/:breederId/poultries',
+  withTokenAuthorization,
+  withBreederPermission,
+  PoultryController.index
+)
+
 export default router

@@ -19,4 +19,22 @@ describe('PoultryAggregator', () => {
       expect(mockPoultryServiceClient.postPoultry).toHaveBeenCalledWith(breederId, poultry)
     })
   })
+
+  describe('.getPoultries', () => {
+    it('returns the poultries', async () => {
+      const poultries = [poultryFactory()]
+      const breeder = breederFactory()
+      const breederId = breeder.id
+      const mockPoultryServiceClient: any = {
+        getPoultries: jest.fn().mockResolvedValue(poultries),
+      }
+      const poultryAggregator = new PoultryAggregator(mockPoultryServiceClient)
+
+      const result = await poultryAggregator.getPoultries(breederId)
+
+      expect(mockPoultryServiceClient.getPoultries).toHaveBeenCalledTimes(1)
+      expect(mockPoultryServiceClient.getPoultries).toHaveBeenCalledWith(breederId)
+      expect(result).toBe(poultries)
+    })
+  })
 })

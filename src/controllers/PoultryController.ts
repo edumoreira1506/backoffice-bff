@@ -6,6 +6,7 @@ import PoultryAggregator from '@Aggregators/PoultryAggregator'
 class PoultryController {
   constructor() {
     this.store = this.store.bind(this)
+    this.index = this.index.bind(this)
   }
 
   @BaseController.errorHandler()
@@ -15,6 +16,14 @@ class PoultryController {
     const poultryData = await PoultryAggregator.postPoultry(poultry, breederId)
 
     return BaseController.successResponse(res, { poultry: poultryData })
+  }
+
+  @BaseController.errorHandler()
+  async index(req: Request, res: Response) {
+    const breederId = req.params.breederId
+    const poultries = await PoultryAggregator.getPoultries(breederId)
+
+    return BaseController.successResponse(res, { poultries })
   }
 }
 
