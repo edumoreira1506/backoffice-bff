@@ -1,6 +1,6 @@
 import { createDoc } from '@cig-platform/docs'
 
-import { storePoultrySchema } from '@Schemas/PoultrySchemas'
+import { storePoultrySchema, updatePoultrySchema } from '@Schemas/PoultrySchemas'
 
 const poultryDocs = {
   ...createDoc('/breeders/{breederId}/poultries', ['Poultries'], [
@@ -24,6 +24,13 @@ const poultryDocs = {
       title: 'Get poultries',
       description: 'Route to get poultries',
       headerParams: [{ type: 'string', name: 'X-Cig-Token' }],
+    },
+    {
+      method: 'patch',
+      title: 'Update poultry',
+      description: 'Route to update poultry',
+      headerParams: [{ type: 'string', name: 'X-Cig-Token' }],
+      objectSchema: updatePoultrySchema
     }
   ], { pathVariables: [{ type: 'string', name: 'breederId' }, { type: 'string', name: 'poultryId' }] }),
 }
