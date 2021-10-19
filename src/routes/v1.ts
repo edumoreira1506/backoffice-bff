@@ -8,7 +8,7 @@ import { withFileSupportFactory } from '@Middlewares/withFileSupport'
 import BreederController from '@Controllers/BreederController'
 import PoultryController from '@Controllers/PoultryController'
 
-import { storePoultrySchema } from '@Schemas/PoultrySchemas'
+import { storePoultrySchema, updatePoultrySchema } from '@Schemas/PoultrySchemas'
 
 const router = express.Router()
 
@@ -42,6 +42,14 @@ router.get(
   withTokenAuthorization,
   withBreederPermission,
   PoultryController.show,
+)
+
+router.patch(
+  '/breeders/:breederId/poultries/:poultryId',
+  withTokenAuthorization,
+  withBreederPermission,
+  withBodyValidation(updatePoultrySchema),
+  PoultryController.update
 )
 
 export default router

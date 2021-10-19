@@ -19,6 +19,10 @@ export class PoultryAggregator {
     return poultryData
   }
 
+  async updatePoultry(breederId: string, poultryId: string, poultry: Partial<IPoultry>) {
+    await this._poultryServiceClient.updatePoultry(breederId, poultryId, poultry)
+  }
+
   async getPoultries(breederId: string) {
     const poultries = await this._poultryServiceClient.getPoultries(breederId)
   
