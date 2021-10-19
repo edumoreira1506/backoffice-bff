@@ -7,6 +7,7 @@ class PoultryController {
   constructor() {
     this.store = this.store.bind(this)
     this.index = this.index.bind(this)
+    this.show = this.show.bind(this)
   }
 
   @BaseController.errorHandler()
@@ -24,6 +25,15 @@ class PoultryController {
     const poultries = await PoultryAggregator.getPoultries(breederId)
 
     return BaseController.successResponse(res, { poultries })
+  }
+
+  @BaseController.errorHandler()
+  async show(req: Request, res: Response) {
+    const breederId = req.params.breederId
+    const poultryId = req.params.poultryId
+    const poultry = await PoultryAggregator.getPoultry(breederId, poultryId)
+
+    return BaseController.successResponse(res, { poultry })
   }
 }
 

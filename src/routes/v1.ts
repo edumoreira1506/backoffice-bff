@@ -37,4 +37,11 @@ router.get(
   PoultryController.index
 )
 
+router.get(
+  '/breeders/:breederId/poultries/:poultryId',
+  withTokenAuthorization,
+  withBreederPermission,
+  PoultryController.show,
+)
+
 export default router
