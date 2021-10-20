@@ -16,6 +16,7 @@ class BreederController {
     const breeder = req.body
     const files = (req.files ?? {}) as Record<string, any[]>
     const deletedImages = (breeder?.deletedImages ?? '').split(',').filter(Boolean)
+    const deletedContacts = (breeder?.deletedContacts ?? '').split(',').filter(Boolean)
 
     delete breeder['deletedImages']
 
@@ -24,9 +25,14 @@ class BreederController {
 
     await BreederAggregator.updateBreederInfo(
       breederId,
-      { ...breeder, ...(files.files ? ({ files: files.files }) : ({})) },
+      {
+        ...breeder,
+        ...(files.files ? ({ files: files.files }) : ({})),
+        contacts: breeder.contacts ? JSON.parse(breeder.contacts) : []
+      },
       deletedImages,
-      newImages
+      newImages,
+      deletedContacts
     )
   }
 
