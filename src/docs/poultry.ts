@@ -31,7 +31,8 @@ const poultryDocs = {
       title: 'Update poultry',
       description: 'Route to update poultry',
       headerParams: [{ type: 'string', name: 'X-Cig-Token' }],
-      objectSchema: updatePoultrySchema
+      objectSchema: updatePoultrySchema,
+      files: ['files'],
     }
   ], { pathVariables: [{ type: 'string', name: 'breederId' }, { type: 'string', name: 'poultryId' }] }),
 }

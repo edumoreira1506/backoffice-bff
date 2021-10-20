@@ -29,9 +29,7 @@ class PoultryController {
     const poultryId = req.params.poultryId
     const poultry = JSON.parse(req.body?.poultry ?? '{}')
     const files = (req.files ?? {}) as Record<string, any[]>
-    const deletedImages = (poultry?.deletedImages ?? '').split(',').filter(Boolean)
-
-    delete poultry['deletedImages']
+    const deletedImages = (req.body.deletedImages ?? '').split(',').filter(Boolean)
 
     await PoultryAggregator.updatePoultry(breederId, poultryId, poultry, files?.files, deletedImages)
   }
