@@ -19,6 +19,7 @@ class BreederController {
     const deletedContacts = (breeder?.deletedContacts ?? '').split(',').filter(Boolean)
 
     delete breeder['deletedImages']
+    delete breeder['deletedContacts']
 
     const newImages = files.newImages
     const breederId = req.params.breederId
