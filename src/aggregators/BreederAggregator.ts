@@ -40,7 +40,7 @@ export class BreederAggregator {
         if (contact.id) {
           await this._poultryServiceClient.updateBreederContact(breederId, contact.id, contact)
         } else {
-          await this._poultryServiceClient.postBreederContact(breederId, contact)
+          await this._poultryServiceClient.postBreederContact(breederId, { value: contact.value, type: contact.type })
         }
       })
     }
