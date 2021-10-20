@@ -15,8 +15,9 @@ export class BreederAggregator {
   async getBreederInfo(breederId: string) {
     const breeder = await this._poultryServiceClient.getBreeder(breederId)
     const breederImages = await this._poultryServiceClient.getBreederImages(breederId)
+    const contacts = await this._poultryServiceClient.getBreederContacts(breederId)
 
-    return { ...breeder, images: breederImages }
+    return { ...breeder, images: breederImages, contacts }
   }
 
   async updateBreederInfo(breederId: string, breeder: Partial<IBreeder>, deletedImages: string[], newImages?: File[]) {
