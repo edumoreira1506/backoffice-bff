@@ -8,13 +8,16 @@ describe('PoultryAggregator', () => {
       const poultry = poultryFactory()
       const breeder = breederFactory()
       const breederId = breeder.id
+      const images = [] as File[]
       const mockPoultryServiceClient: any = {
-        postPoultry: jest.fn(),
+        postPoultry: jest.fn().mockResolvedValue(poultry),
+        postPoultryImages: jest.fn()
       }
       const poultryAggregator = new PoultryAggregator(mockPoultryServiceClient)
 
-      await poultryAggregator.postPoultry(poultry, breederId)
+      await poultryAggregator.postPoultry(poultry, breederId, images)
 
+      expect(mockPoultryServiceClient.postPoultryImages).toHaveBeenCalledWith(breederId, poultry.id, images)
       expect(mockPoultryServiceClient.postPoultry).toHaveBeenCalledTimes(1)
       expect(mockPoultryServiceClient.postPoultry).toHaveBeenCalledWith(breederId, poultry)
     })
