@@ -1,5 +1,5 @@
 import { PoultryServiceClient as IPoultryServiceClient } from '@cig-platform/core'
-import { IBreeder } from '@cig-platform/types'
+import { IBreeder, IBreederContact } from '@cig-platform/types'
 
 import PoultryServiceClient from '@Clients/PoultryServiceClient'
 
@@ -20,10 +20,30 @@ export class BreederAggregator {
     return { ...breeder, images: breederImages, contacts }
   }
 
-  async updateBreederInfo(breederId: string, breeder: Partial<IBreeder>, deletedImages: string[], newImages?: File[]) {
+  async updateBreederInfo(
+    breederId: string,
+    breeder: Partial<IBreeder> & { contacts?: Partial<IBreederContact>[] },
+    deletedImages: string[],
+    newImages?: File[],
+    deletedContacts: string[] = []
+  ) {
     deletedImages.forEach(async (breederImageId) => {
       await this._poultryServiceClient.removeBreederImage(breederId, breederImageId)
     })
+
+    deletedContacts.forEach(async (contactId) => {
+      await this._poultryServiceClient.removeBreederContact(breederId, contactId)
+    })
+
+    if (breeder.contacts) {
+      breeder.contacts.forEach(async (contact) => {
+        if (contact.id) {
+          await this._poultryServiceClient.updateBreederContact(breeder.id ?? '', contact.id, contact)
+        } else {
+          await this._poultryServiceClient.postBreederContact(breeder.id ?? '', contact)
+        }
+      })
+    }
 
     if (newImages) {
       await this._poultryServiceClient.postBreederImages(breederId, newImages)
