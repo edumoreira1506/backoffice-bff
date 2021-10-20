@@ -13,8 +13,10 @@ export class PoultryAggregator {
     this.getPoultries = this.getPoultries.bind(this)
   }
 
-  async postPoultry(poultry: IPoultry, breederId: string) {
+  async postPoultry(poultry: IPoultry, breederId: string, images: File[] = []) {
     const poultryData = await this._poultryServiceClient.postPoultry(breederId, poultry)
+
+    await this._poultryServiceClient.postPoultryImages(breederId, poultryData.id, images)
 
     return poultryData
   }

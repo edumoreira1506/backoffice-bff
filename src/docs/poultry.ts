@@ -9,7 +9,8 @@ const poultryDocs = {
       title: 'Register poultry',
       description: 'Route to register poultry',
       headerParams: [{ type: 'string', name: 'X-Cig-Token' }],
-      objectSchema: storePoultrySchema
+      objectSchema: storePoultrySchema,
+      files: ['files'],
     },
     {
       method: 'get',
