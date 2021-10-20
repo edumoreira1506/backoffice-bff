@@ -16,7 +16,8 @@ class PoultryController {
   async store(req: Request, res: Response) {
     const poultry = req.body?.poultry
     const breederId = req.params.breederId
-    const poultryData = await PoultryAggregator.postPoultry(poultry, breederId)
+    const files = (req.files ?? {}) as Record<string, any[]>
+    const poultryData = await PoultryAggregator.postPoultry(poultry, breederId, files?.files)
 
     return BaseController.successResponse(res, { poultry: poultryData })
   }

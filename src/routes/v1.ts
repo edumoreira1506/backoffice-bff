@@ -3,7 +3,7 @@ import { withBodyValidation } from '@cig-platform/core'
 
 import withBreederPermission from '@Middlewares/withBreederPermission'
 import withTokenAuthorization from '@Middlewares/withTokenAuthoritzation'
-import { withFileSupportFactory } from '@Middlewares/withFileSupport'
+import withFileSupport, { withFileSupportFactory } from '@Middlewares/withFileSupport'
 
 import BreederController from '@Controllers/BreederController'
 import PoultryController from '@Controllers/PoultryController'
@@ -27,6 +27,7 @@ router.post(
   withTokenAuthorization,
   withBreederPermission,
   withBodyValidation(storePoultrySchema),
+  withFileSupport,
   PoultryController.store
 )
 

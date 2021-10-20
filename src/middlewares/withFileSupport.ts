@@ -9,3 +9,5 @@ export const withFileSupportFactory = (fields: string[] = []) => (req: Request, 
     ...fields.map((field) => ({ name: field }))
   ])(req, res, next)
 }
+
+export default withFileSupportFactory()
