@@ -8,16 +8,19 @@ describe('BreederAggregator', () => {
     it('returns the breeder and images', async () => {
       const breeder = breederFactory()
       const images: any[] = []
+      const contacts: any[] = []
       const mockPoultryServiceClient: any = {
         getBreeder: jest.fn().mockResolvedValue(breeder),
-        getBreederImages: jest.fn().mockResolvedValue(images)
+        getBreederImages: jest.fn().mockResolvedValue(images),
+        getBreederContacts: jest.fn().mockResolvedValue(contacts)
       }
       const breederAggregator = new BreederAggregator(mockPoultryServiceClient)
       const breederInfo = await breederAggregator.getBreederInfo(breeder.id)
 
       expect(breederInfo).toMatchObject({
         ...breederInfo,
-        images
+        images,
+        contacts
       })
     })
   })
