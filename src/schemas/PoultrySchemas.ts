@@ -5,5 +5,6 @@ export const storePoultrySchema = Joi.object({
 })
 
 export const updatePoultrySchema = Joi.object({
-  poultry: Joi.object().required()
+  poultry: Joi.object().required(),
+  deletedImages: Joi.array()
 })

@@ -27,9 +27,11 @@ class PoultryController {
   async update(req: Request) {
     const breederId = req.params.breederId
     const poultryId = req.params.poultryId
-    const poultry = req.body?.poultry
+    const poultry = JSON.parse(req.body?.poultry ?? '{}')
+    const files = (req.files ?? {}) as Record<string, any[]>
+    const deletedImages = (req.body.deletedImages ?? '').split(',').filter(Boolean)
 
-    await PoultryAggregator.updatePoultry(breederId, poultryId, poultry)
+    await PoultryAggregator.updatePoultry(breederId, poultryId, poultry, files?.files, deletedImages)
   }
 
   @BaseController.errorHandler()
