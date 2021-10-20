@@ -21,8 +21,9 @@ export class PoultryAggregator {
     return poultryData
   }
 
-  async updatePoultry(breederId: string, poultryId: string, poultry: Partial<IPoultry>) {
+  async updatePoultry(breederId: string, poultryId: string, poultry: Partial<IPoultry>, images: File[] = []) {
     await this._poultryServiceClient.updatePoultry(breederId, poultryId, poultry)
+    await this._poultryServiceClient.postPoultryImages(breederId, poultryId, images)
   }
 
   async getPoultries(breederId: string) {

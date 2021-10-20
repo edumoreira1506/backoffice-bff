@@ -1,5 +1,4 @@
 import express from 'express'
-import { withBodyValidation } from '@cig-platform/core'
 
 import withBreederPermission from '@Middlewares/withBreederPermission'
 import withTokenAuthorization from '@Middlewares/withTokenAuthoritzation'
@@ -7,8 +6,6 @@ import withFileSupport, { withFileSupportFactory } from '@Middlewares/withFileSu
 
 import BreederController from '@Controllers/BreederController'
 import PoultryController from '@Controllers/PoultryController'
-
-import { updatePoultrySchema } from '@Schemas/PoultrySchemas'
 
 const router = express.Router()
 
@@ -48,7 +45,7 @@ router.patch(
   '/breeders/:breederId/poultries/:poultryId',
   withTokenAuthorization,
   withBreederPermission,
-  withBodyValidation(updatePoultrySchema),
+  withFileSupport,
   PoultryController.update
 )
 

@@ -28,8 +28,9 @@ class PoultryController {
     const breederId = req.params.breederId
     const poultryId = req.params.poultryId
     const poultry = req.body?.poultry
+    const files = (req.files ?? {}) as Record<string, any[]>
 
-    await PoultryAggregator.updatePoultry(breederId, poultryId, poultry)
+    await PoultryAggregator.updatePoultry(breederId, poultryId, poultry, files?.files)
   }
 
   @BaseController.errorHandler()
