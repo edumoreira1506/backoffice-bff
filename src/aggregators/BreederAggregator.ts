@@ -37,10 +37,12 @@ export class BreederAggregator {
 
     if (breeder.contacts) {
       breeder.contacts.forEach(async (contact) => {
+        const contactData = { value: contact.value, type: contact.type }
+
         if (contact.id) {
-          await this._poultryServiceClient.updateBreederContact(breederId, contact.id, contact)
+          await this._poultryServiceClient.updateBreederContact(breederId, contact.id, contactData)
         } else {
-          await this._poultryServiceClient.postBreederContact(breederId, { value: contact.value, type: contact.type })
+          await this._poultryServiceClient.postBreederContact(breederId, contactData)
         }
       })
     }
