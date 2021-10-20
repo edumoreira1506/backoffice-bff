@@ -38,9 +38,9 @@ export class BreederAggregator {
     if (breeder.contacts) {
       breeder.contacts.forEach(async (contact) => {
         if (contact.id) {
-          await this._poultryServiceClient.updateBreederContact(breeder.id ?? '', contact.id, contact)
+          await this._poultryServiceClient.updateBreederContact(breederId, contact.id, contact)
         } else {
-          await this._poultryServiceClient.postBreederContact(breeder.id ?? '', contact)
+          await this._poultryServiceClient.postBreederContact(breederId, contact)
         }
       })
     }
@@ -48,6 +48,8 @@ export class BreederAggregator {
     if (newImages) {
       await this._poultryServiceClient.postBreederImages(breederId, newImages)
     }
+
+    delete breeder['contacts']
 
     if (breeder) {
       await this._poultryServiceClient.updateBreeder(breederId, breeder)

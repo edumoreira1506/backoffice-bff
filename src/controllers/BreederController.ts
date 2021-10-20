@@ -25,7 +25,11 @@ class BreederController {
 
     await BreederAggregator.updateBreederInfo(
       breederId,
-      { ...breeder, ...(files.files ? ({ files: files.files }) : ({})) },
+      {
+        ...breeder,
+        ...(files.files ? ({ files: files.files }) : ({})),
+        contacts: breeder.contacts ? JSON.parse(breeder.contacts) : []
+      },
       deletedImages,
       newImages,
       deletedContacts
