@@ -8,7 +8,7 @@ import withFileSupport, { withFileSupportFactory } from '@Middlewares/withFileSu
 import BreederController from '@Controllers/BreederController'
 import PoultryController from '@Controllers/PoultryController'
 
-import { storePoultrySchema, updatePoultrySchema } from '@Schemas/PoultrySchemas'
+import { updatePoultrySchema } from '@Schemas/PoultrySchemas'
 
 const router = express.Router()
 
@@ -26,7 +26,6 @@ router.post(
   '/breeders/:breederId/poultries',
   withTokenAuthorization,
   withBreederPermission,
-  withBodyValidation(storePoultrySchema),
   withFileSupport,
   PoultryController.store
 )
