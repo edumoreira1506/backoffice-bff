@@ -39,7 +39,7 @@ class PoultryController {
     const breederId = req.params.breederId
     const poultries = await PoultryAggregator.getPoultries(breederId)
 
-    return BaseController.successResponse(res, { poultries })
+    return BaseController.successResponse(res, { ...poultries })
   }
 
   @BaseController.errorHandler()
