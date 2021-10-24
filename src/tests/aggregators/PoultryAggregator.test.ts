@@ -39,8 +39,8 @@ describe('PoultryAggregator', () => {
       expect(result).toMatchObject({
         reproductives: poultries,
         matrix: poultries,
-        malePoultries: poultries,
-        femalePoultries: poultries,
+        male: poultries,
+        female: poultries,
       })
     })
   })

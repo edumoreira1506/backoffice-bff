@@ -45,8 +45,8 @@ export class PoultryAggregator {
     return {
       reproductives: reproductivePoultries,
       matrix: matrixPoultries,
-      malePoultries: malePoultries,
-      femalePoultries: femalePoultries,
+      male: malePoultries,
+      female: femalePoultries,
     }
   }
 
