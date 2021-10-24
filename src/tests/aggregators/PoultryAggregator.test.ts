@@ -35,9 +35,13 @@ describe('PoultryAggregator', () => {
 
       const result = await poultryAggregator.getPoultries(breederId)
 
-      expect(mockPoultryServiceClient.getPoultries).toHaveBeenCalledTimes(1)
-      expect(mockPoultryServiceClient.getPoultries).toHaveBeenCalledWith(breederId)
-      expect(result).toBe(poultries)
+      expect(mockPoultryServiceClient.getPoultries).toHaveBeenCalledTimes(4)
+      expect(result).toMatchObject({
+        reproductives: poultries,
+        matrix: poultries,
+        malePoultries: poultries,
+        femalePoultries: poultries,
+      })
     })
   })
 })
