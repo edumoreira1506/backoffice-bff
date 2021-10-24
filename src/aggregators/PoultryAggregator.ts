@@ -37,9 +37,17 @@ export class PoultryAggregator {
   }
 
   async getPoultries(breederId: string) {
-    const poultries = await this._poultryServiceClient.getPoultries(breederId)
+    const reproductivePoultries = await this._poultryServiceClient.getPoultries(breederId, 'REPRODUTOR')
+    const matrixPoultries = await this._poultryServiceClient.getPoultries(breederId, 'MATRIZ')
+    const malePoultries = await this._poultryServiceClient.getPoultries(breederId, 'FRANGO')
+    const femalePoultries = await this._poultryServiceClient.getPoultries(breederId, 'FRANGA')
   
-    return poultries
+    return {
+      reproductives: reproductivePoultries,
+      matrix: matrixPoultries,
+      malePoultries: malePoultries,
+      femalePoultries: femalePoultries,
+    }
   }
 
   async getPoultry(breederId: string, poultryId: string) {
