@@ -53,8 +53,9 @@ export class PoultryAggregator {
   async getPoultry(breederId: string, poultryId: string) {
     const poultry = await this._poultryServiceClient.getPoultry(breederId, poultryId)
     const images = await this._poultryServiceClient.getPoultryImages(breederId, poultryId)
+    const registers = await this._poultryServiceClient.getRegisters(breederId, poultryId)
 
-    return { ...poultry, images }
+    return { ...poultry, images, registers }
   }
 }
 
