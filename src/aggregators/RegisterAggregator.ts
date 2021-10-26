@@ -10,12 +10,19 @@ export class RegisterAggregator {
     this._poultryServiceClient = poultryServiceClient
 
     this.postRegister = this.postRegister.bind(this)
+    this.getRegisters = this.getRegisters.bind(this)
   }
 
   async postRegister(register: IPoultryRegister, breederId: string, poultryId: string, files: File[] = []) {
     const registerData = await this._poultryServiceClient.postRegister(breederId, poultryId, register, files)
 
     return registerData.data
+  }
+
+  async getRegisters(breederId: string, poultryId: string) {
+    const registers = await this._poultryServiceClient.getRegisters(breederId, poultryId)
+
+    return registers
   }
 }
 

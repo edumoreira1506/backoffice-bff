@@ -58,4 +58,11 @@ router.post(
   RegisterController.store
 )
 
+router.get(
+  '/breeders/:breederId/poultries/:poultryId/registers',
+  withTokenAuthorization,
+  withBreederPermission,
+  RegisterController.index
+)
+
 export default router
