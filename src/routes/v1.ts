@@ -6,6 +6,7 @@ import withFileSupport, { withFileSupportFactory } from '@Middlewares/withFileSu
 
 import BreederController from '@Controllers/BreederController'
 import PoultryController from '@Controllers/PoultryController'
+import RegisterController from '@Controllers/RegisterController'
 
 const router = express.Router()
 
@@ -47,6 +48,14 @@ router.patch(
   withBreederPermission,
   withFileSupport,
   PoultryController.update
+)
+
+router.post(
+  '/breeders/:breederId/poultries/:poultryId/registers',
+  withTokenAuthorization,
+  withBreederPermission,
+  withFileSupport,
+  RegisterController.store
 )
 
 export default router
