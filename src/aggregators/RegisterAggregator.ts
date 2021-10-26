@@ -15,7 +15,7 @@ export class RegisterAggregator {
   async postRegister(register: IPoultryRegister, breederId: string, poultryId: string, files: File[] = []) {
     const registerData = await this._poultryServiceClient.postRegister(breederId, poultryId, register, files)
 
-    return registerData
+    return registerData.data
   }
 }
 
