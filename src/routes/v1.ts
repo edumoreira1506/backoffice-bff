@@ -1,4 +1,5 @@
 import express from 'express'
+import { withBodyValidation } from '@cig-platform/core'
 
 import withBreederPermission from '@Middlewares/withBreederPermission'
 import withTokenAuthorization from '@Middlewares/withTokenAuthoritzation'
@@ -7,6 +8,8 @@ import withFileSupport, { withFileSupportFactory } from '@Middlewares/withFileSu
 import BreederController from '@Controllers/BreederController'
 import PoultryController from '@Controllers/PoultryController'
 import RegisterController from '@Controllers/RegisterController'
+import AdvertisingController from '@Controllers/AdvertisingController'
+import { storeAdvertisingSchema } from '@Schemas/AdvertisingSchemas'
 
 const router = express.Router()
 
@@ -63,6 +66,14 @@ router.get(
   withTokenAuthorization,
   withBreederPermission,
   RegisterController.index
+)
+
+router.post(
+  '/breeders/:breederId/poultries/:poultryId/advertisings',
+  withBodyValidation(storeAdvertisingSchema),
+  withTokenAuthorization,
+  withBreederPermission,
+  AdvertisingController.store
 )
 
 export default router
