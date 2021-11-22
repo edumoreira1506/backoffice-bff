@@ -12,11 +12,12 @@ class AdvertisingController {
   @BaseController.errorHandler()
   async store(req: AuthenticatedRequest, res: Response) {
     const advertising = req.body.advertising
+    const poultryId = req.params.poultryId
     const merchant = req.merchant
 
     if (!merchant) throw new NotFoundError()
 
-    const advertisingData = await AdvertisingAggregator.postAdvertising(advertising, merchant.id)
+    const advertisingData = await AdvertisingAggregator.postAdvertising({ ...advertising, externalId: poultryId }, merchant.id)
 
     return BaseController.successResponse(res, { advertising: advertisingData })
   }
