@@ -4,7 +4,7 @@ import { breederFactory, userFactory } from '@cig-platform/factories'
 import App from '@Configs/server'
 import i18n from '@Configs/i18n'
 import PoultryServiceClient from '@Clients/PoultryServiceClient'
-import AccountServiceClient from '@Clients/AccoutnServiceClient'
+import AccountServiceClient from '@Clients/AccountServiceClient'
 import TokenService from '@Services/TokenService'
 import BreederAggregator from '@Aggregators/BreederAggregator'
 
