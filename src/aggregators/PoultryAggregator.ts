@@ -1,13 +1,19 @@
-import { PoultryServiceClient as IPoultryServiceClient } from '@cig-platform/core'
-import { IPoultry } from '@cig-platform/types'
+import {
+  PoultryServiceClient as IPoultryServiceClient,
+  AdvertisingServiceClient as IAdvertisingServiceClient
+} from '@cig-platform/core'
+import { IMerchant, IPoultry } from '@cig-platform/types'
 
 import PoultryServiceClient from '@Clients/PoultryServiceClient'
+import AdvertisingServiceClient from '@Clients/AdvertisingServiceClient'
 
 export class PoultryAggregator {
   private _poultryServiceClient: IPoultryServiceClient;
+  private _advertisingServiceClient: IAdvertisingServiceClient;
   
-  constructor(poultryServiceClient: IPoultryServiceClient) {
+  constructor(poultryServiceClient: IPoultryServiceClient, advertisingServiceClient: IAdvertisingServiceClient) {
     this._poultryServiceClient = poultryServiceClient
+    this._advertisingServiceClient = advertisingServiceClient
 
     this.postPoultry = this.postPoultry.bind(this)
     this.getPoultries = this.getPoultries.bind(this)
@@ -50,13 +56,17 @@ export class PoultryAggregator {
     }
   }
 
-  async getPoultry(breederId: string, poultryId: string) {
-    const poultry = await this._poultryServiceClient.getPoultry(breederId, poultryId)
+  async getPoultry(merchant: IMerchant, breederId: string, poultryId: string) {
+    const poultryData = await this._poultryServiceClient.getPoultry(breederId, poultryId)
     const images = await this._poultryServiceClient.getPoultryImages(breederId, poultryId)
     const registers = await this._poultryServiceClient.getRegisters(breederId, poultryId)
+    const poultry = {
+      ...poultryData, images, registers
+    }
+    const advertisings = await this._advertisingServiceClient.getAdvertisings(merchant.id, poultryData.id)
 
-    return { ...poultry, images, registers }
+    return { poultry, advertisings }
   }
 }
 
-export default new PoultryAggregator(PoultryServiceClient)
+export default new PoultryAggregator(PoultryServiceClient, AdvertisingServiceClient)

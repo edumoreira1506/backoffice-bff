@@ -1,5 +1,6 @@
 import { Request, Response } from 'express'
 import { BaseController } from '@cig-platform/core'
+import { AuthenticatedRequest } from '@cig-platform/types'
 
 import PoultryAggregator from '@Aggregators/PoultryAggregator'
 import i18n from '@Configs/i18n'
@@ -43,12 +44,12 @@ class PoultryController {
   }
 
   @BaseController.errorHandler()
-  async show(req: Request, res: Response) {
+  async show(req: AuthenticatedRequest, res: Response) {
     const breederId = req.params.breederId
     const poultryId = req.params.poultryId
-    const poultry = await PoultryAggregator.getPoultry(breederId, poultryId)
+    const data = await PoultryAggregator.getPoultry(req.merchant, breederId, poultryId)
 
-    return BaseController.successResponse(res, { poultry })
+    return BaseController.successResponse(res, data)
   }
 }
 
