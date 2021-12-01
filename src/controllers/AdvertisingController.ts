@@ -21,6 +21,18 @@ class AdvertisingController {
 
     return BaseController.successResponse(res, { advertising: advertisingData })
   }
+
+  @BaseController.errorHandler()
+  async remove(req: AuthenticatedRequest) {
+    const merchant = req.merchant
+
+    if (!merchant) throw new NotFoundError()
+
+    const merchantId = merchant.id
+    const advertisingId = req.params.advertisingId
+
+    await AdvertisingAggregator.removeAdvertising(merchantId, advertisingId)
+  }
 }
 
 export default new AdvertisingController()
