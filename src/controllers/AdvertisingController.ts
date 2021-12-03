@@ -3,6 +3,7 @@ import { BaseController, NotFoundError } from '@cig-platform/core'
 import { AuthenticatedRequest } from '@cig-platform/types'
 
 import AdvertisingAggregator from '@Aggregators/AdvertisingAggregator'
+import i18n from '@Configs/i18n'
 
 class AdvertisingController {
   constructor() {
@@ -23,6 +24,7 @@ class AdvertisingController {
   }
 
   @BaseController.errorHandler()
+  @BaseController.actionHandler(i18n.__('common.removed'))
   async remove(req: AuthenticatedRequest) {
     const merchant = req.merchant
 
