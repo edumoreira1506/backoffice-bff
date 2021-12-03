@@ -76,4 +76,11 @@ router.post(
   AdvertisingController.store
 )
 
+router.delete(
+  '/breeders/:breederId/poultries/:poultryId/advertisings/:advertisingId',
+  withTokenAuthorization,
+  withBreederPermission,
+  AdvertisingController.remove
+)
+
 export default router

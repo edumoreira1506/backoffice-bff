@@ -62,6 +62,20 @@ const poultryDocs = {
       objectSchema: storeAdvertisingSchema,
     },
   ], { pathVariables: [{ type: 'string', name: 'breederId' }, { type: 'string', name: 'poultryId' }] }),
+  ...createDoc('/breeders/{breederId}/poultries/{poultryId}/advertisings/{advertisingId}', ['Remove advertising'], [
+    {
+      method: 'delete',
+      title: 'Remove poultry advertising',
+      description: 'Route to remove poultry advertising',
+      headerParams: [{ type: 'string', name: 'X-Cig-Token' }],
+    },
+  ], {
+    pathVariables: [
+      { type: 'string', name: 'breederId' },
+      { type: 'string', name: 'poultryId' },
+      { type: 'string', name: 'advertisingId' },
+    ]
+  }),
 }
 
 export default poultryDocs

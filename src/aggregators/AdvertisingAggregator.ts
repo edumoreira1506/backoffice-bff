@@ -17,6 +17,10 @@ export class AdvertisingAggregator {
 
     return advertisingData
   }
+
+  async removeAdvertising(merchantId: string, advertisingId: string) {
+    await this._advertisingServiceClient.removeAdvertising(merchantId, advertisingId)
+  }
 }
 
 export default new AdvertisingAggregator(AdvertisingServiceClient)
