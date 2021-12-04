@@ -37,8 +37,10 @@ class AdvertisingController {
 
     const merchantId = merchant.id
     const advertisingId = req.params.advertisingId
+    const breederId = req.params.breederId
+    const poultryId = req.params.poultryId
 
-    await AdvertisingAggregator.removeAdvertising(merchantId, advertisingId)
+    await AdvertisingAggregator.removeAdvertising({ merchantId, advertisingId, breederId, poultryId })
   }
 }
 
