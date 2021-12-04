@@ -41,8 +41,31 @@ export class AdvertisingAggregator {
     return advertisingData
   }
 
-  async removeAdvertising(merchantId: string, advertisingId: string) {
+  async removeAdvertising({
+    merchantId,
+    advertisingId,
+    breederId,
+    poultryId,
+  }: {
+    merchantId: string,
+    advertisingId: string,
+    breederId: string,
+    poultryId: string,
+  }) {
+    const poultry = await this._poultryServiceClient.getPoultry(breederId, poultryId)
+    const breeder = await this._poultryServiceClient.getBreeder(breederId)
+
     await this._advertisingServiceClient.removeAdvertising(merchantId, advertisingId)
+    await this._poultryServiceClient.postRegister(
+      breederId,
+      poultryId,
+      {
+        metadata: { advertisingId },
+        type: 'REMOÇÃO DE ANÚNCIO',
+        description: `Anúncio da ave ${poultry.name} removido pelo ${breeder.name}`
+      },
+      []
+    )
   }
 }
 
