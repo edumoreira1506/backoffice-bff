@@ -14,11 +14,16 @@ class AdvertisingController {
   async store(req: AuthenticatedRequest, res: Response) {
     const advertising = req.body.advertising
     const poultryId = req.params.poultryId
+    const breederId = req.params.breederId
     const merchant = req.merchant
 
     if (!merchant) throw new NotFoundError()
 
-    const advertisingData = await AdvertisingAggregator.postAdvertising({ ...advertising, externalId: poultryId }, merchant.id)
+    const advertisingData = await AdvertisingAggregator.postAdvertising(
+      { ...advertising, externalId: poultryId },
+      merchant.id,
+      breederId
+    )
 
     return BaseController.successResponse(res, { advertising: advertisingData })
   }
