@@ -33,8 +33,7 @@ export class AdvertisingAggregator {
       {
         metadata: { advertisingId: advertisingData.id },
         type: 'ANÚNCIO',
-        poultryId,
-        description: `Ave ${poultry.name} anúnciada no criatório ${breeder.name}`
+        description: `Ave ${poultry.name} anúnciada no ${breeder.name}`
       },
       []
     )
