@@ -11,6 +11,7 @@ class PoultryController {
     this.index = this.index.bind(this)
     this.show = this.show.bind(this)
     this.update = this.update.bind(this)
+    this.transfer = this.transfer.bind(this)
   }
 
   @BaseController.errorHandler()
@@ -33,6 +34,16 @@ class PoultryController {
     const deletedImages = (req.body.deletedImages ?? '').split(',').filter(Boolean)
 
     await PoultryAggregator.updatePoultry(breederId, poultryId, poultry, files?.files, deletedImages)
+  }
+
+  @BaseController.errorHandler()
+  @BaseController.actionHandler(i18n.__('common.updated'))
+  async transfer(req: Request) {
+    const breederId = req.params.breederId
+    const poultryId = req.params.poultryId
+    const targetBreederId = req.body.breederId
+
+    await PoultryAggregator.transferPoultry(breederId, poultryId, targetBreederId)
   }
 
   @BaseController.errorHandler()
