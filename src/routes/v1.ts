@@ -9,7 +9,9 @@ import BreederController from '@Controllers/BreederController'
 import PoultryController from '@Controllers/PoultryController'
 import RegisterController from '@Controllers/RegisterController'
 import AdvertisingController from '@Controllers/AdvertisingController'
+
 import { storeAdvertisingSchema } from '@Schemas/AdvertisingSchemas'
+import { transferPoultrySchema } from '@Schemas/PoultrySchemas'
 
 const router = express.Router()
 
@@ -66,6 +68,14 @@ router.get(
   withTokenAuthorization,
   withBreederPermission,
   RegisterController.index
+)
+
+router.post(
+  '/breeders/:breederId/poultries/:poultryId/transfer',
+  withBodyValidation(transferPoultrySchema),
+  withTokenAuthorization,
+  withBreederPermission,
+  PoultryController.transfer
 )
 
 router.post(

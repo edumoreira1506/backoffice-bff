@@ -27,6 +27,14 @@ export class PoultryAggregator {
     return poultryData
   }
 
+  async transferPoultry(
+    breederId: string,
+    poultryId: string,
+    targetBreederId: string
+  ) {
+    await this._poultryServiceClient.transferPoultry(breederId, poultryId, targetBreederId)
+  }
+
   async updatePoultry(
     breederId: string,
     poultryId: string,

@@ -1,7 +1,7 @@
 import { createDoc } from '@cig-platform/docs'
 import { storeAdvertisingSchema } from '@Schemas/AdvertisingSchemas'
 
-import { storePoultrySchema, updatePoultrySchema } from '@Schemas/PoultrySchemas'
+import { storePoultrySchema, transferPoultrySchema, updatePoultrySchema } from '@Schemas/PoultrySchemas'
 import { storeRegisterSchema } from '@Schemas/RegisterSchema'
 
 const poultryDocs = {
@@ -74,6 +74,19 @@ const poultryDocs = {
       { type: 'string', name: 'breederId' },
       { type: 'string', name: 'poultryId' },
       { type: 'string', name: 'advertisingId' },
+    ]
+  }),
+  ...createDoc('/breeders/{breederId}/poultries/{poultryId}/transfer', ['Transfer poultry'], [
+    {
+      method: 'post',
+      title: 'Transfer poultry',
+      headerParams: [{ type: 'string', name: 'X-Cig-Token' }],
+      objectSchema: transferPoultrySchema,
+    },
+  ], {
+    pathVariables: [
+      { type: 'string', name: 'breederId' },
+      { type: 'string', name: 'poultryId' },
     ]
   }),
 }
