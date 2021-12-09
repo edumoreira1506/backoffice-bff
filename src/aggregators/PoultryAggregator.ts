@@ -32,7 +32,23 @@ export class PoultryAggregator {
     poultryId: string,
     targetBreederId: string
   ) {
+    const poultry = await this._poultryServiceClient.getPoultry(breederId, poultryId)
+
     await this._poultryServiceClient.transferPoultry(breederId, poultryId, targetBreederId)
+
+    const originBreeder = await this._poultryServiceClient.getBreeder(breederId)
+    const targetBreeder = await this._poultryServiceClient.getBreeder(targetBreederId)
+
+    await this._poultryServiceClient.postRegister(
+      targetBreederId,
+      poultryId,
+      {
+        metadata: { targetBreederId, originBreederId: originBreeder.id },
+        type: 'TRANSFERÊNCIA',
+        description: `Ave ${poultry.name} transferida de ${originBreeder.name} para ${targetBreeder.name}`
+      },
+      []
+    )
   }
 
   async updatePoultry(
