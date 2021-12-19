@@ -19,8 +19,8 @@ export class RegisterAggregator {
     return registerData.data
   }
 
-  async getRegisters(breederId: string, poultryId: string) {
-    const registers = await this._poultryServiceClient.getRegisters(breederId, poultryId)
+  async getRegisters(breederId: string, poultryId: string, registerType = '') {
+    const registers = await this._poultryServiceClient.getRegisters(breederId, poultryId, registerType)
 
     return registers
   }

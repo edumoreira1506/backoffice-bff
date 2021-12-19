@@ -24,7 +24,8 @@ class RegisterController {
   async index(req: Request, res: Response) {
     const breederId = req.params.breederId
     const poultryId = req.params.poultryId
-    const registers = await RegisterAggregator.getRegisters(breederId, poultryId)
+    const registerType = String(req?.query?.registerType ?? '')
+    const registers = await RegisterAggregator.getRegisters(breederId, poultryId, registerType)
 
     return BaseController.successResponse(res, { registers })
   }
