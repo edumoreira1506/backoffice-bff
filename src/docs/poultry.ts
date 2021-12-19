@@ -51,6 +51,7 @@ const poultryDocs = {
       title: 'Get poultry registers',
       description: 'Route to get poultry registers',
       headerParams: [{ type: 'string', name: 'X-Cig-Token' }],
+      queryParams: [{ type: 'string', name: 'registerType' }],
     }
   ], { pathVariables: [{ type: 'string', name: 'breederId' }, { type: 'string', name: 'poultryId' }] }),
   ...createDoc('/breeders/{breederId}/poultries/{poultryId}/advertisings', ['Poultry advertisings'], [
