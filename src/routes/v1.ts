@@ -86,6 +86,13 @@ router.post(
   AdvertisingController.store
 )
 
+router.patch(
+  '/breeders/:breederId/poultries/:poultryId/advertisings/:advertisingId',
+  withTokenAuthorization,
+  withBreederPermission,
+  AdvertisingController.update
+)
+
 router.delete(
   '/breeders/:breederId/poultries/:poultryId/advertisings/:advertisingId',
   withTokenAuthorization,

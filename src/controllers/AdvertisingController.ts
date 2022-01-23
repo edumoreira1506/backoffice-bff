@@ -8,6 +8,7 @@ import i18n from '@Configs/i18n'
 class AdvertisingController {
   constructor() {
     this.store = this.store.bind(this)
+    this.update = this.update.bind(this)
   }
 
   @BaseController.errorHandler()
@@ -41,6 +42,20 @@ class AdvertisingController {
     const poultryId = req.params.poultryId
 
     await AdvertisingAggregator.removeAdvertising({ merchantId, advertisingId, breederId, poultryId })
+  }
+
+  @BaseController.errorHandler()
+  @BaseController.actionHandler(i18n.__('common.updated'))
+  async update(req: AuthenticatedRequest) {
+    const merchant = req.merchant
+
+    if (!merchant) throw new NotFoundError()
+
+    const merchantId = merchant.id
+    const advertisingId = req.params.advertisingId
+    const price = Number(req.body.price)
+
+    await AdvertisingAggregator.updateAdvertising({ advertisingId, merchantId, price })
   }
 }
 
