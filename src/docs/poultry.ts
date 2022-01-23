@@ -1,5 +1,5 @@
 import { createDoc } from '@cig-platform/docs'
-import { storeAdvertisingSchema } from '@Schemas/AdvertisingSchemas'
+import { storeAdvertisingSchema, updateAdvertisingSchema } from '@Schemas/AdvertisingSchemas'
 
 import { storePoultrySchema, transferPoultrySchema, updatePoultrySchema } from '@Schemas/PoultrySchemas'
 import { storeRegisterSchema } from '@Schemas/RegisterSchema'
@@ -69,6 +69,13 @@ const poultryDocs = {
       title: 'Remove poultry advertising',
       description: 'Route to remove poultry advertising',
       headerParams: [{ type: 'string', name: 'X-Cig-Token' }],
+    },
+    {
+      method: 'patch',
+      title: 'Update poultry advertising',
+      description: 'Route to update poultry advertising',
+      headerParams: [{ type: 'string', name: 'X-Cig-Token' }],
+      objectSchema: updateAdvertisingSchema
     },
   ], {
     pathVariables: [

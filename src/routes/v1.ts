@@ -10,7 +10,7 @@ import PoultryController from '@Controllers/PoultryController'
 import RegisterController from '@Controllers/RegisterController'
 import AdvertisingController from '@Controllers/AdvertisingController'
 
-import { storeAdvertisingSchema } from '@Schemas/AdvertisingSchemas'
+import { storeAdvertisingSchema, updateAdvertisingSchema } from '@Schemas/AdvertisingSchemas'
 import { transferPoultrySchema } from '@Schemas/PoultrySchemas'
 
 const router = express.Router()
@@ -84,6 +84,14 @@ router.post(
   withTokenAuthorization,
   withBreederPermission,
   AdvertisingController.store
+)
+
+router.patch(
+  '/breeders/:breederId/poultries/:poultryId/advertisings/:advertisingId',
+  withBodyValidation(updateAdvertisingSchema),
+  withTokenAuthorization,
+  withBreederPermission,
+  AdvertisingController.update
 )
 
 router.delete(

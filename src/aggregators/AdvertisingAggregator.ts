@@ -41,6 +41,18 @@ export class AdvertisingAggregator {
     return advertisingData
   }
 
+  async updateAdvertising({
+    merchantId,
+    advertisingId,
+    price
+  }: {
+    merchantId: string;
+    advertisingId: string;
+    price: number;
+  }) {
+    await this._advertisingServiceClient.updateAdvertising(merchantId, advertisingId, price)
+  }
+
   async removeAdvertising({
     merchantId,
     advertisingId,
