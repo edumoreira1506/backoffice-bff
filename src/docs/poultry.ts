@@ -70,6 +70,12 @@ const poultryDocs = {
       description: 'Route to remove poultry advertising',
       headerParams: [{ type: 'string', name: 'X-Cig-Token' }],
     },
+    {
+      method: 'patch',
+      title: 'Update poultry advertising',
+      description: 'Route to update poultry advertising',
+      headerParams: [{ type: 'string', name: 'X-Cig-Token' }],
+    },
   ], {
     pathVariables: [
       { type: 'string', name: 'breederId' },
