@@ -3,6 +3,7 @@ import {
   AdvertisingServiceClient as IAdvertisingServiceClient
 } from '@cig-platform/core'
 import { IMerchant, IPoultry } from '@cig-platform/types'
+import { PoultryGenderCategoryEnum } from '@cig-platform/enums'
 
 import PoultryServiceClient from '@Clients/PoultryServiceClient'
 import AdvertisingServiceClient from '@Clients/AdvertisingServiceClient'
@@ -67,10 +68,10 @@ export class PoultryAggregator {
   }
 
   async getPoultries(breederId: string) {
-    const reproductivePoultries = await this._poultryServiceClient.getPoultries(breederId, { genderCategory: 'REPRODUTOR'})
-    const matrixPoultries = await this._poultryServiceClient.getPoultries(breederId, { genderCategory: 'MATRIZ' })
-    const malePoultries = await this._poultryServiceClient.getPoultries(breederId, { genderCategory: 'FRANGO' })
-    const femalePoultries = await this._poultryServiceClient.getPoultries(breederId, { genderCategory: 'FRANGA' })
+    const reproductivePoultries = await this._poultryServiceClient.getPoultries(breederId, { genderCategory: PoultryGenderCategoryEnum.Reproductive})
+    const matrixPoultries = await this._poultryServiceClient.getPoultries(breederId, { genderCategory: PoultryGenderCategoryEnum.Matrix })
+    const malePoultries = await this._poultryServiceClient.getPoultries(breederId, { genderCategory: PoultryGenderCategoryEnum.MaleChicken })
+    const femalePoultries = await this._poultryServiceClient.getPoultries(breederId, { genderCategory: PoultryGenderCategoryEnum.FemaleChicken })
   
     return {
       reproductives: reproductivePoultries,
