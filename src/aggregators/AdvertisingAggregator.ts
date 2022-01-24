@@ -3,6 +3,7 @@ import {
   PoultryServiceClient as IPoultryServiceClient,
 } from '@cig-platform/core'
 import { IAdvertising } from '@cig-platform/types'
+import { RegisterTypeEnum } from '@cig-platform/enums'
 
 import AdvertisingServiceClient from '@Clients/AdvertisingServiceClient'
 import PoultryServiceClient from '@Clients/PoultryServiceClient'
@@ -32,7 +33,7 @@ export class AdvertisingAggregator {
       poultryId,
       {
         metadata: { advertisingId: advertisingData.id },
-        type: 'ANÚNCIO',
+        type: RegisterTypeEnum.Advertising,
         description: `Ave ${poultry.name} anúnciada no ${breeder.name}`
       },
       []
@@ -73,7 +74,7 @@ export class AdvertisingAggregator {
       poultryId,
       {
         metadata: { advertisingId },
-        type: 'REMOÇÃO DE ANÚNCIO',
+        type: RegisterTypeEnum.RemoveAdvertising,
         description: `Anúncio da ave ${poultry.name} removido pelo ${breeder.name}`
       },
       []
