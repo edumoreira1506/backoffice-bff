@@ -23,7 +23,7 @@ class AdvertisingQuestionAnswerController {
       merchant.id,
       advertisingId,
       questionId,
-      answer
+      { ...answer, externalId: user.id }
     )
 
     return BaseController.successResponse(res, { answer: savedAnswer })
