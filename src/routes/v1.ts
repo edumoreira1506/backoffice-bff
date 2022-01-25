@@ -13,6 +13,7 @@ import AdvertisingQuestionAnswerController from '@Controllers/AdvertisingQuestio
 
 import { storeAdvertisingSchema, updateAdvertisingSchema } from '@Schemas/AdvertisingSchemas'
 import { transferPoultrySchema } from '@Schemas/PoultrySchemas'
+import { storeAdvertisingQuestionAnswerSchema } from '@Schemas/AdvertisingQuestionAnswerSchemas'
 
 const router = express.Router()
 
@@ -104,6 +105,7 @@ router.delete(
 
 router.post(
   '/breeders/:breederId/poultries/:poultryId/advertisings/:advertisingId/questions/:questionId/answers',
+  withBodyValidation(storeAdvertisingQuestionAnswerSchema),
   withTokenAuthorization,
   withBreederPermission,
   AdvertisingQuestionAnswerController.store
