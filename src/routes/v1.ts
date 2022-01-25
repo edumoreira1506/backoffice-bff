@@ -9,6 +9,7 @@ import BreederController from '@Controllers/BreederController'
 import PoultryController from '@Controllers/PoultryController'
 import RegisterController from '@Controllers/RegisterController'
 import AdvertisingController from '@Controllers/AdvertisingController'
+import AdvertisingQuestionAnswerController from '@Controllers/AdvertisingQuestionAnswerController'
 
 import { storeAdvertisingSchema, updateAdvertisingSchema } from '@Schemas/AdvertisingSchemas'
 import { transferPoultrySchema } from '@Schemas/PoultrySchemas'
@@ -99,6 +100,13 @@ router.delete(
   withTokenAuthorization,
   withBreederPermission,
   AdvertisingController.remove
+)
+
+router.post(
+  '/breeders/:breederId/poultries/:poultryId/advertisings/:advertisingId/questions/:questionId/answers',
+  withTokenAuthorization,
+  withBreederPermission,
+  AdvertisingQuestionAnswerController.store
 )
 
 export default router
