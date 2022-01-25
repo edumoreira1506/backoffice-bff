@@ -85,7 +85,7 @@ const poultryDocs = {
       { type: 'string', name: 'advertisingId' },
     ]
   }),
-  ...createDoc('/breeders/{breederId}/poultries/{poultryId}/advertisings/{advertisingId}/questions/{questionId}/answers', ['Store advertising question answer'], [
+  ...createDoc('/breeders/{breederId}/poultries/{poultryId}/advertisings/{advertisingId}/questions/{questionId}/answers', ['Advertising question answer'], [
     {
       method: 'post',
       title: 'Register poultry advertising question answer',
