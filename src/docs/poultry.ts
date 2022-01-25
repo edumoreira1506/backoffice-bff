@@ -1,6 +1,7 @@
 import { createDoc } from '@cig-platform/docs'
-import { storeAdvertisingSchema, updateAdvertisingSchema } from '@Schemas/AdvertisingSchemas'
 
+import { storeAdvertisingQuestionAnswerSchema } from '@Schemas/AdvertisingQuestionAnswerSchemas'
+import { storeAdvertisingSchema, updateAdvertisingSchema } from '@Schemas/AdvertisingSchemas'
 import { storePoultrySchema, transferPoultrySchema, updatePoultrySchema } from '@Schemas/PoultrySchemas'
 import { storeRegisterSchema } from '@Schemas/RegisterSchema'
 
@@ -82,6 +83,22 @@ const poultryDocs = {
       { type: 'string', name: 'breederId' },
       { type: 'string', name: 'poultryId' },
       { type: 'string', name: 'advertisingId' },
+    ]
+  }),
+  ...createDoc('/breeders/{breederId}/poultries/{poultryId}/advertisings/{advertisingId}/questions/{questionId}/answers', ['Advertising question answer'], [
+    {
+      method: 'post',
+      title: 'Register poultry advertising question answer',
+      description: 'Route to register poultry advertising question answer',
+      headerParams: [{ type: 'string', name: 'X-Cig-Token' }],
+      objectSchema: storeAdvertisingQuestionAnswerSchema
+    },
+  ], {
+    pathVariables: [
+      { type: 'string', name: 'breederId' },
+      { type: 'string', name: 'poultryId' },
+      { type: 'string', name: 'advertisingId' },
+      { type: 'string', name: 'questionId' },
     ]
   }),
   ...createDoc('/breeders/{breederId}/poultries/{poultryId}/transfer', ['Transfer poultry'], [
