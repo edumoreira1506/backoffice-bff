@@ -8,5 +8,6 @@
 	"app.description": "Documentação da API",
 	"common.updated": "Atualizado com sucesso",
 	"common.removed": "Deletado com sucesso",
-	"auth.errors.invalid-login": "auth.errors.invalid-login"
+	"auth.errors.invalid-login": "Ação não permitida",
+	"deal.errors.already-confirmed": "Compra já foi confirmada"
 }
