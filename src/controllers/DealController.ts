@@ -22,7 +22,7 @@ class DealController {
   @BaseController.actionHandler(i18n.__('common.updated'))
   async cancel(req: AuthenticatedRequest) {
     const dealId = req.params.dealId
-    const reason = req.body.deal
+    const reason = req.body.reason
 
     await DealAggregator.cancelDeal(dealId, reason)
   }
