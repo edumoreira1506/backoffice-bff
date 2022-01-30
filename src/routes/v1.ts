@@ -10,6 +10,7 @@ import PoultryController from '@Controllers/PoultryController'
 import RegisterController from '@Controllers/RegisterController'
 import AdvertisingController from '@Controllers/AdvertisingController'
 import AdvertisingQuestionAnswerController from '@Controllers/AdvertisingQuestionAnswerController'
+import DealController from '@Controllers/DealController'
 
 import { storeAdvertisingSchema, updateAdvertisingSchema } from '@Schemas/AdvertisingSchemas'
 import { transferPoultrySchema } from '@Schemas/PoultrySchemas'
@@ -109,6 +110,13 @@ router.post(
   withTokenAuthorization,
   withBreederPermission,
   AdvertisingQuestionAnswerController.store
+)
+
+router.post(
+  '/breeders/:breederId/poultries/:poultryId/advertisings/:advertisingId/deals/:dealId/confirm',
+  withTokenAuthorization,
+  withBreederPermission,
+  DealController.confirm
 )
 
 export default router
