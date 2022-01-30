@@ -101,6 +101,21 @@ const poultryDocs = {
       { type: 'string', name: 'questionId' },
     ]
   }),
+  ...createDoc('/breeders/{breederId}/poultries/{poultryId}/advertisings/{advertisingId}/deals/{dealId}/confirm', ['Deal'], [
+    {
+      method: 'post',
+      title: 'Confirm deal',
+      description: 'Route to confirm deal',
+      headerParams: [{ type: 'string', name: 'X-Cig-Token' }],
+    },
+  ], {
+    pathVariables: [
+      { type: 'string', name: 'breederId' },
+      { type: 'string', name: 'poultryId' },
+      { type: 'string', name: 'advertisingId' },
+      { type: 'string', name: 'dealId' },
+    ]
+  }),
   ...createDoc('/breeders/{breederId}/poultries/{poultryId}/transfer', ['Transfer poultry'], [
     {
       method: 'post',
