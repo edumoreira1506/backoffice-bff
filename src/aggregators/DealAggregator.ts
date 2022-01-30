@@ -23,7 +23,6 @@ export class DealAggregator {
     if (events.some(event => event.value === DealEventValueEnum.confirmed)) throw new AlreadyConfirmedError()
 
     return this._dealServiceClient.registerDealEvent(dealId, {
-      dealId,
       value: DealEventValueEnum.confirmed,
     })
   }
