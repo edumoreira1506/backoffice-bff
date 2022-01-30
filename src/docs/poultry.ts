@@ -2,6 +2,7 @@ import { createDoc } from '@cig-platform/docs'
 
 import { storeAdvertisingQuestionAnswerSchema } from '@Schemas/AdvertisingQuestionAnswerSchemas'
 import { storeAdvertisingSchema, updateAdvertisingSchema } from '@Schemas/AdvertisingSchemas'
+import { cancelDealSchema } from '@Schemas/DealSchemas'
 import { storePoultrySchema, transferPoultrySchema, updatePoultrySchema } from '@Schemas/PoultrySchemas'
 import { storeRegisterSchema } from '@Schemas/RegisterSchema'
 
@@ -107,6 +108,22 @@ const poultryDocs = {
       title: 'Confirm deal',
       description: 'Route to confirm deal',
       headerParams: [{ type: 'string', name: 'X-Cig-Token' }],
+    },
+  ], {
+    pathVariables: [
+      { type: 'string', name: 'breederId' },
+      { type: 'string', name: 'poultryId' },
+      { type: 'string', name: 'advertisingId' },
+      { type: 'string', name: 'dealId' },
+    ]
+  }),
+  ...createDoc('/breeders/{breederId}/poultries/{poultryId}/advertisings/{advertisingId}/deals/{dealId}/cancel', ['Deal'], [
+    {
+      method: 'post',
+      title: 'Cancel deal',
+      description: 'Route to cancel deal',
+      headerParams: [{ type: 'string', name: 'X-Cig-Token' }],
+      objectSchema: cancelDealSchema
     },
   ], {
     pathVariables: [
