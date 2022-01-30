@@ -2,6 +2,7 @@ import express from 'express'
 import { withBodyValidation } from '@cig-platform/core'
 
 import withBreederPermission from '@Middlewares/withBreederPermission'
+import withDealPermission from '@Middlewares/withDealPermission'
 import withTokenAuthorization from '@Middlewares/withTokenAuthoritzation'
 import withFileSupport, { withFileSupportFactory } from '@Middlewares/withFileSupport'
 
@@ -15,6 +16,7 @@ import DealController from '@Controllers/DealController'
 import { storeAdvertisingSchema, updateAdvertisingSchema } from '@Schemas/AdvertisingSchemas'
 import { transferPoultrySchema } from '@Schemas/PoultrySchemas'
 import { storeAdvertisingQuestionAnswerSchema } from '@Schemas/AdvertisingQuestionAnswerSchemas'
+import { cancelDealSchema } from '@Schemas/DealSchemas'
 
 const router = express.Router()
 
@@ -117,6 +119,14 @@ router.post(
   withTokenAuthorization,
   withBreederPermission,
   DealController.confirm
+)
+
+router.post(
+  '/breeders/:breederId/poultries/:poultryId/advertisings/:advertisingId/deals/:dealId/cancel',
+  withBodyValidation(cancelDealSchema),
+  withTokenAuthorization,
+  withDealPermission,
+  DealController.cancel
 )
 
 export default router

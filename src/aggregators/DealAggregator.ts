@@ -26,6 +26,15 @@ export class DealAggregator {
       value: DealEventValueEnum.confirmed,
     })
   }
+
+  async cancelDeal(dealId: string, reason: string) {
+    await this._dealServiceClient.updateDeal(dealId, { cancelled: true })
+
+    return this._dealServiceClient.registerDealEvent(dealId, {
+      value: DealEventValueEnum.cancelled,
+      metadata: { reason }
+    })
+  }
 }
 
 export default new DealAggregator(DealServiceClient)
