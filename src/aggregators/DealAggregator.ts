@@ -44,14 +44,13 @@ export class DealAggregator {
     if (deal.finished || deal.cancelled) throw new FinishedDealError()
     if (!isBuyer) throw new AuthError()
 
-    await this._dealServiceClient.updateDeal(dealId, { finished: true })
-    
-    await this._advertisingServiceClient.updateAdvertising(sellerMerchant.id, advertising.id, advertising.price, true)
-
     await this._dealServiceClient.registerDealEvent(dealId, {
       value: DealEventValueEnum.received,
       metadata: {}
     })
+
+    await this._dealServiceClient.updateDeal(dealId, { finished: true })
+    await this._advertisingServiceClient.updateAdvertising(sellerMerchant.id, advertising.id, advertising.price, true)
 
     await PoultryAggregator.transferPoultry(sellerBreeder.id, poultryOfAdvertising.id, breederOfRequest.id)
   }
