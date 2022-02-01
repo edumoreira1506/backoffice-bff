@@ -88,7 +88,7 @@ export class PoultryAggregator {
     const poultry = {
       ...poultryData, images, registers
     }
-    const advertisings = await this._advertisingServiceClient.getAdvertisings(merchant.id, poultryData.id)
+    const advertisings = await this._advertisingServiceClient.getAdvertisings(merchant.id, poultryData.id, false)
 
     return { poultry, advertisings }
   }
