@@ -9,5 +9,6 @@
 	"common.updated": "Atualizado com sucesso",
 	"common.removed": "Deletado com sucesso",
 	"auth.errors.invalid-login": "Ação não permitida",
-	"deal.errors.already-confirmed": "Compra já foi confirmada"
+	"deal.errors.already-confirmed": "Compra já foi confirmada",
+	"deal.errors.finished-deal": "Compra já foi encerrada"
 }

@@ -129,4 +129,11 @@ router.post(
   DealController.cancel
 )
 
+router.post(
+  '/breeders/:breederId/poultries/:poultryId/advertisings/:advertisingId/deals/:dealId/receive',
+  withTokenAuthorization,
+  withDealPermission,
+  DealController.receive
+)
+
 export default router
