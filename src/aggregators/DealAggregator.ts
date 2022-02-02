@@ -40,7 +40,12 @@ export class DealAggregator {
     const deals = await this._dealServiceClient.getDeals(params)
     const dealsWithPoultryAndAdvertising = await Promise.all(deals.map(async (deal) => {
       const advertising = await this._advertisingServiceClient.getAdvertising(deal.sellerId, deal.advertisingId)
-      const poultry = await this._poultryServiceClient.getPoultry(merchant.externalId, advertising.externalId)
+      const sellerMerchant = await this._advertisingServiceClient.getMerchant(deal.sellerId)
+      const buyerMerchant = await this._advertisingServiceClient.getMerchant(deal.buyerId)
+      const poultry = await this._poultryServiceClient.getPoultry(
+        deal.finished ? buyerMerchant.externalId : sellerMerchant.externalId,
+        advertising.externalId
+      )
 
       return { deal, advertising, poultry }
     }))
