@@ -47,7 +47,7 @@ export class DealAggregator {
         advertising.externalId
       )
       const breeder = await this._poultryServiceClient.getBreeder(
-        merchantId === sellerMerchant.id ? buyerMerchant.id : sellerMerchant.id
+        merchantId === sellerMerchant.id ? buyerMerchant.externalId : sellerMerchant.externalId
       )
 
       return { deal, advertising, poultry, breeder }
