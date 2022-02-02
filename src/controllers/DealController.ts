@@ -1,3 +1,4 @@
+import { Response } from 'express'
 import { AuthError, BaseController } from '@cig-platform/core'
 import { AuthenticatedRequest } from '@cig-platform/types'
 
@@ -9,6 +10,19 @@ class DealController {
     this.confirm = this.confirm.bind(this)
     this.cancel = this.cancel.bind(this)
     this.receive = this.receive.bind(this)
+    this.index = this.index.bind(this)
+  }
+
+  @BaseController.errorHandler()
+  async index(req: AuthenticatedRequest, res: Response) {
+    const merchant = req.merchant
+
+    if (!merchant) throw new AuthError()
+
+    const filter = String(req?.query?.as ?? 'SELLER')
+    const deals = await DealAggregator.getDeals(filter, merchant)
+
+    return BaseController.successResponse(res, { deals })
   }
 
   @BaseController.errorHandler()
