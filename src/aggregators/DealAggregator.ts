@@ -46,8 +46,11 @@ export class DealAggregator {
         deal.finished ? buyerMerchant.externalId : sellerMerchant.externalId,
         advertising.externalId
       )
+      const breeder = await this._poultryServiceClient.getBreeder(
+        merchantId === sellerMerchant.id ? buyerMerchant.id : sellerMerchant.id
+      )
 
-      return { deal, advertising, poultry }
+      return { deal, advertising, poultry, breeder }
     }))
 
     return dealsWithPoultryAndAdvertising
