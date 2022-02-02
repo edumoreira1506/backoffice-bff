@@ -30,6 +30,13 @@ router.patch(
 
 router.get('/breeders/:breederId', withTokenAuthorization, withBreederPermission, BreederController.show)
 
+router.get(
+  '/breeders/:breederId/deals',
+  withTokenAuthorization,
+  withBreederPermission,
+  DealController.index
+)
+
 router.post(
   '/breeders/:breederId/poultries',
   withTokenAuthorization,
