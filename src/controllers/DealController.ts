@@ -33,9 +33,9 @@ class DealController {
 
     if (!merchant) throw new AuthError()
 
-    const deals = await DealAggregator.getDeal(merchant, dealId)
+    const deal = await DealAggregator.getDeal(merchant, dealId)
 
-    return BaseController.successResponse(res, { deals })
+    return BaseController.successResponse(res, deal)
   }
 
   @BaseController.errorHandler()
