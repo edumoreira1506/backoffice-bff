@@ -11,6 +11,7 @@ class DealController {
     this.cancel = this.cancel.bind(this)
     this.receive = this.receive.bind(this)
     this.index = this.index.bind(this)
+    this.show = this.show.bind(this)
   }
 
   @BaseController.errorHandler()
@@ -23,6 +24,18 @@ class DealController {
     const deals = await DealAggregator.getDeals(filter, merchant)
 
     return BaseController.successResponse(res, { deals })
+  }
+
+  @BaseController.errorHandler()
+  async show(req: AuthenticatedRequest, res: Response) {
+    const merchant = req.merchant
+    const dealId = req.params.dealId
+
+    if (!merchant) throw new AuthError()
+
+    const deal = await DealAggregator.getDeal(merchant, dealId)
+
+    return BaseController.successResponse(res, deal)
   }
 
   @BaseController.errorHandler()
