@@ -32,6 +32,7 @@ export class DealAggregator {
     this.finishDeal = this.finishDeal.bind(this)
     this.cancelDeal = this.cancelDeal.bind(this)
     this.getDeals = this.getDeals.bind(this)
+    this.getDeal = this.getDeal.bind(this)
   }
 
   async getDeals(filter: string, merchant: IMerchant) {
@@ -51,6 +52,16 @@ export class DealAggregator {
     }))
 
     return dealsWithPoultryAndAdvertising
+  }
+
+  async getDeal(merchant: IMerchant, dealId: string) {
+    const deal = await this._dealServiceClient.getDeal(dealId)
+    const advertising = await this._advertisingServiceClient.getAdvertising(deal.sellerId, deal.advertisingId)
+    const poultry = await this._poultryServiceClient.getPoultryDirectly(advertising.externalId)
+    const breederId = deal.sellerId === merchant.id ? deal.buyerId : deal.sellerId
+    const breeder = await this._poultryServiceClient.getBreeder(breederId)
+
+    return { deal, advertising, poultry, breeder }
   }
 
   async finishDeal(dealId: string, merchant: IMerchant) {

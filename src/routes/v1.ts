@@ -2,7 +2,7 @@ import express from 'express'
 import { withBodyValidation } from '@cig-platform/core'
 
 import withBreederPermission from '@Middlewares/withBreederPermission'
-import withDealPermission from '@Middlewares/withDealPermission'
+import withDealPermission, { withDirectlyDealPermission } from '@Middlewares/withDealPermission'
 import withTokenAuthorization from '@Middlewares/withTokenAuthoritzation'
 import withFileSupport, { withFileSupportFactory } from '@Middlewares/withFileSupport'
 
@@ -35,6 +35,14 @@ router.get(
   withTokenAuthorization,
   withBreederPermission,
   DealController.index
+)
+
+router.get(
+  '/breeders/:breederId/deals/:dealId',
+  withTokenAuthorization,
+  withBreederPermission,
+  withDirectlyDealPermission,
+  DealController.show
 )
 
 router.post(
