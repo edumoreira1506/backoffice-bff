@@ -170,6 +170,19 @@ const poultryDocs = {
       { type: 'string', name: 'poultryId' },
     ]
   }),
+  ...createDoc('/breeders/{breederId}/deals/{dealId}', ['Deal'], [
+    {
+      method: 'get',
+      title: 'Get deal',
+      description: 'Route to get deal',
+      headerParams: [{ type: 'string', name: 'X-Cig-Token' }],
+    },
+  ], {
+    pathVariables: [
+      { type: 'string', name: 'breederId' },
+      { type: 'string', name: 'dealId' },
+    ]
+  }),
 }
 
 export default poultryDocs
