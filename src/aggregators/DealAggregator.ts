@@ -62,8 +62,9 @@ export class DealAggregator {
     const merchantOfBuyer = await this._advertisingServiceClient.getMerchant(deal.buyerId)
     const breederId = deal.sellerId === merchant.id ? merchantOfBuyer.externalId : merchantOfSeller.externalId
     const breeder = await this._poultryServiceClient.getBreeder(breederId)
+    const events = await this._dealServiceClient.getDealEvents(dealId)
 
-    return { deal, advertising, poultry, breeder }
+    return { deal, advertising, poultry, breeder, events }
   }
 
   async finishDeal(dealId: string, merchant: IMerchant) {
