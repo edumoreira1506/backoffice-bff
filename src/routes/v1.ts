@@ -147,7 +147,7 @@ router.post(
 router.post(
   '/breeders/:breederId/poultries/:poultryId/advertisings/:advertisingId/deals/:dealId/receive',
   withTokenAuthorization,
-  withDealPermission,
+  withDirectlyDealPermission,
   DealController.receive
 )
 
