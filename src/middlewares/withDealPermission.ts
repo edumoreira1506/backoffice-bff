@@ -88,6 +88,12 @@ export const withDirectlyDealPermissionFactory = (
 
     if (!isPartOfDeal) throw new AuthError()
 
+    const sellerMerchant = await advertisingServiceClient.getMerchant(deal.sellerId)
+
+    if (sellerMerchant?.id !== merchant?.id) {
+      req.merchant = sellerMerchant
+    }
+
     next()
   } catch(error: any) {
     return errorCallback(res, error?.getError ? error.getError() : error)
