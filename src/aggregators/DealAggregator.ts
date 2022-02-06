@@ -2,7 +2,6 @@ import {
   DealServiceClient as IDealServiceClient,
   PoultryServiceClient as IPoultryServiceClient,
   AdvertisingServiceClient as IAdvertisingServiceClient,
-  AuthError,
 } from '@cig-platform/core'
 
 import DealServiceClient from '@Clients/DealServiceClient'
@@ -74,10 +73,8 @@ export class DealAggregator {
     const sellerBreeder = await this._poultryServiceClient.getBreeder(sellerMerchant.externalId)
     const advertising = await this._advertisingServiceClient.getAdvertising(deal.sellerId, deal.advertisingId)
     const poultryOfAdvertising = await this._poultryServiceClient.getPoultry(sellerBreeder.id, advertising.externalId)
-    const isBuyer = deal.buyerId === merchant.id
 
     if (deal.finished || deal.cancelled) throw new FinishedDealError()
-    if (!isBuyer) throw new AuthError()
 
     await this._dealServiceClient.registerDealEvent(dealId, {
       value: DealEventValueEnum.received,
