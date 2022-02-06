@@ -101,12 +101,12 @@ export class DealAggregator {
   }
 
   async cancelDeal(dealId: string, reason: string) {
-    await this._dealServiceClient.updateDeal(dealId, { cancelled: true })
-
-    return this._dealServiceClient.registerDealEvent(dealId, {
+    await this._dealServiceClient.registerDealEvent(dealId, {
       value: DealEventValueEnum.cancelled,
       metadata: { reason }
     })
+
+    return this._dealServiceClient.updateDeal(dealId, { cancelled: true })
   }
 }
 
