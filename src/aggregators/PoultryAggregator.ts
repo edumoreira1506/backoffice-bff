@@ -7,6 +7,7 @@ import { PoultryGenderCategoryEnum } from '@cig-platform/enums'
 
 import PoultryServiceClient from '@Clients/PoultryServiceClient'
 import AdvertisingServiceClient from '@Clients/AdvertisingServiceClient'
+import AdvertisingRunningError from '@Errors/AdvertisingRunningError'
 
 export class PoultryAggregator {
   private _poultryServiceClient: IPoultryServiceClient;
@@ -31,8 +32,13 @@ export class PoultryAggregator {
   async transferPoultry(
     breederId: string,
     poultryId: string,
-    targetBreederId: string
+    targetBreederId: string,
+    merchantId: string
   ) {
+    const advertisings = await this._advertisingServiceClient.getAdvertisings(merchantId, poultryId, false)
+
+    if (advertisings.length) throw new AdvertisingRunningError()
+
     const poultry = await this._poultryServiceClient.getPoultry(breederId, poultryId)
 
     await this._poultryServiceClient.transferPoultry(breederId, poultryId, targetBreederId)

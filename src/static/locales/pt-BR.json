@@ -10,5 +10,6 @@
 	"common.removed": "Deletado com sucesso",
 	"auth.errors.invalid-login": "Ação não permitida",
 	"deal.errors.already-confirmed": "Compra já foi confirmada",
-	"deal.errors.finished-deal": "Compra já foi encerrada"
+	"deal.errors.finished-deal": "Compra já foi encerrada",
+	"transfer.errors.advertising-running": "Ave possui um anúncio ativo aberto"
 }
