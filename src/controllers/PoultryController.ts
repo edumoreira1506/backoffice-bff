@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import { BaseController } from '@cig-platform/core'
+import { AuthError, BaseController } from '@cig-platform/core'
 import { AuthenticatedRequest } from '@cig-platform/types'
 
 import PoultryAggregator from '@Aggregators/PoultryAggregator'
@@ -38,12 +38,15 @@ class PoultryController {
 
   @BaseController.errorHandler()
   @BaseController.actionHandler(i18n.__('common.updated'))
-  async transfer(req: Request) {
+  async transfer(req: AuthenticatedRequest) {
     const breederId = req.params.breederId
     const poultryId = req.params.poultryId
     const targetBreederId = req.body.breederId
+    const merchant = req.merchant
 
-    await PoultryAggregator.transferPoultry(breederId, poultryId, targetBreederId)
+    if (!merchant) throw new AuthError()
+
+    await PoultryAggregator.transferPoultry(breederId, poultryId, targetBreederId, merchant.id)
   }
 
   @BaseController.errorHandler()

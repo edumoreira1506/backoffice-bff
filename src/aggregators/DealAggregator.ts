@@ -84,7 +84,12 @@ export class DealAggregator {
     await this._dealServiceClient.updateDeal(dealId, { finished: true })
     await this._advertisingServiceClient.updateAdvertising(sellerMerchant.id, advertising.id, advertising.price, true)
 
-    await PoultryAggregator.transferPoultry(sellerBreeder.id, poultryOfAdvertising.id, breederOfRequest.id)
+    await PoultryAggregator.transferPoultry(
+      sellerBreeder.id,
+      poultryOfAdvertising.id,
+      breederOfRequest.id,
+      sellerMerchant.id
+    )
   }
 
   async confirmDeal(dealId: string) {
