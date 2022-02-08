@@ -1,25 +1,33 @@
 import {
   AdvertisingServiceClient as IAdvertisingServiceClient,
   PoultryServiceClient as IPoultryServiceClient,
+  DealServiceClient as IDealServiceClient
 } from '@cig-platform/core'
 import { IAdvertising } from '@cig-platform/types'
 import { RegisterTypeEnum } from '@cig-platform/enums'
 
 import AdvertisingServiceClient from '@Clients/AdvertisingServiceClient'
 import PoultryServiceClient from '@Clients/PoultryServiceClient'
+import DealServiceClient from '@Clients/DealServiceClient'
+import DealRunningError from '@Errors/DealRunningError'
 
 export class AdvertisingAggregator {
   private _advertisingServiceClient: IAdvertisingServiceClient;
   private _poultryServiceClient: IPoultryServiceClient;
+  private _dealServiceClient: IDealServiceClient;
   
   constructor(
     advertisingServiceClient: IAdvertisingServiceClient,
-    poultryServiceClient: IPoultryServiceClient
+    poultryServiceClient: IPoultryServiceClient,
+    dealServiceClient: IDealServiceClient
   ) {
     this._advertisingServiceClient = advertisingServiceClient
     this._poultryServiceClient = poultryServiceClient
+    this._dealServiceClient = dealServiceClient
 
     this.postAdvertising = this.postAdvertising.bind(this)
+    this.updateAdvertising = this.updateAdvertising.bind(this)
+    this.removeAdvertising = this.removeAdvertising.bind(this)
   }
 
   async postAdvertising(advertising: Partial<IAdvertising>, merchantId: string, breederId: string) {
@@ -51,6 +59,11 @@ export class AdvertisingAggregator {
     advertisingId: string;
     price: number;
   }) {
+    const deals = await this._dealServiceClient.getDeals({ advertisingId })
+    const hasUnfinishedDeals = deals.some((deal) => !deal.finished && !deal.cancelled)
+
+    if (hasUnfinishedDeals) throw new DealRunningError()
+
     await this._advertisingServiceClient.updateAdvertising(merchantId, advertisingId, price)
   }
 
@@ -65,6 +78,11 @@ export class AdvertisingAggregator {
     breederId: string,
     poultryId: string,
   }) {
+    const deals = await this._dealServiceClient.getDeals({ advertisingId })
+    const hasUnfinishedDeals = deals.some((deal) => !deal.finished && !deal.cancelled)
+
+    if (hasUnfinishedDeals) throw new DealRunningError()
+
     const poultry = await this._poultryServiceClient.getPoultry(breederId, poultryId)
     const breeder = await this._poultryServiceClient.getBreeder(breederId)
 
@@ -82,4 +100,8 @@ export class AdvertisingAggregator {
   }
 }
 
-export default new AdvertisingAggregator(AdvertisingServiceClient, PoultryServiceClient)
+export default new AdvertisingAggregator(
+  AdvertisingServiceClient,
+  PoultryServiceClient,
+  DealServiceClient
+)
