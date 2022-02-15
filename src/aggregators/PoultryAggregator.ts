@@ -25,7 +25,7 @@ export class PoultryAggregator {
     poultry: IPoultry,
     breederId: string,
     images: File[] = [],
-    { measurement, weight }: { measurement?: number; weight?: number }
+    { measurement, weight }: { measurement?: number; weight?: number } = {}
   ) {
     const poultryData = await this._poultryServiceClient.postPoultry(breederId, poultry)
 
