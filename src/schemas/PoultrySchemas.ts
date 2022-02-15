@@ -1,7 +1,8 @@
 import Joi from 'joi'
 
 export const storePoultrySchema = Joi.object({
-  poultry: Joi.object().required()
+  poultry: Joi.object().required(),
+  measurementAndWeight: Joi.object(),
 })
 
 export const updatePoultrySchema = Joi.object({
