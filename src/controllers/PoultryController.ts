@@ -17,9 +17,10 @@ class PoultryController {
   @BaseController.errorHandler()
   async store(req: Request, res: Response) {
     const poultry = JSON.parse(req.body?.poultry ?? '{}')
+    const measurementAndWeight = JSON.parse(req.body?.measurementAndWeight ?? '{}')
     const breederId = req.params.breederId
     const files = (req.files ?? {}) as Record<string, any[]>
-    const poultryData = await PoultryAggregator.postPoultry(poultry, breederId, files?.files)
+    const poultryData = await PoultryAggregator.postPoultry(poultry, breederId, files?.files, measurementAndWeight)
 
     return BaseController.successResponse(res, { poultry: poultryData })
   }

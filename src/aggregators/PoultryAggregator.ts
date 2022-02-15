@@ -3,7 +3,7 @@ import {
   AdvertisingServiceClient as IAdvertisingServiceClient
 } from '@cig-platform/core'
 import { IMerchant, IPoultry } from '@cig-platform/types'
-import { PoultryGenderCategoryEnum } from '@cig-platform/enums'
+import { PoultryGenderCategoryEnum, RegisterTypeEnum } from '@cig-platform/enums'
 
 import PoultryServiceClient from '@Clients/PoultryServiceClient'
 import AdvertisingServiceClient from '@Clients/AdvertisingServiceClient'
@@ -21,10 +21,22 @@ export class PoultryAggregator {
     this.getPoultries = this.getPoultries.bind(this)
   }
 
-  async postPoultry(poultry: IPoultry, breederId: string, images: File[] = []) {
+  async postPoultry(
+    poultry: IPoultry,
+    breederId: string,
+    images: File[] = [],
+    { measurement, weight }: { measurement?: number; weight?: number }
+  ) {
     const poultryData = await this._poultryServiceClient.postPoultry(breederId, poultry)
 
     await this._poultryServiceClient.postPoultryImages(breederId, poultryData.id, images)
+
+    if (measurement || weight) {
+      await this._poultryServiceClient.postRegister(breederId, poultry.id, {
+        metadata: { measurement, weight },
+        type: RegisterTypeEnum.MeasurementAndWeighing,
+      }, [])
+    }
 
     return poultryData
   }
@@ -51,7 +63,7 @@ export class PoultryAggregator {
       poultryId,
       {
         metadata: { targetBreederId, originBreederId: originBreeder.id },
-        type: 'TRANSFERÊNCIA',
+        type: RegisterTypeEnum.Transfer,
         description: `Ave ${poultry.name} transferida de ${originBreeder.name} para ${targetBreeder.name}`
       },
       []
