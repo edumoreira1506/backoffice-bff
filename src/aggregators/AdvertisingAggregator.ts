@@ -61,9 +61,14 @@ export class AdvertisingAggregator {
     price: number;
   }) {
     const deals = await this._dealServiceClient.getDeals({ advertisingId })
-    const hasUnfinishedDeals = deals.some((deal) => !deal.finished && !deal.cancelled)
+    const dealEvents = await Promise.all(deals.map(async deal => this._dealServiceClient.getDealEvents(deal.id)))
+    const hasConfirmedDeals = dealEvents.some((events) =>
+      events.some(e => e.value === DealEventValueEnum.confirmed) &&
+      events.every(e => e.value !== DealEventValueEnum.cancelled) &&
+      events.every(e => e.value !== DealEventValueEnum.received)
+    )
 
-    if (hasUnfinishedDeals) throw new DealRunningError()
+    if (hasConfirmedDeals) throw new DealRunningError()
 
     await this._advertisingServiceClient.updateAdvertising(merchantId, advertisingId, price)
   }
