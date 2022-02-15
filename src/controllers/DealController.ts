@@ -59,11 +59,8 @@ class DealController {
   @BaseController.actionHandler(i18n.__('common.updated'))
   async receive(req: AuthenticatedRequest) {
     const dealId = req.params.dealId
-    const merchant = req.merchant
 
-    if (!merchant) throw new AuthError()
-
-    await DealAggregator.finishDeal(dealId, merchant)
+    await DealAggregator.finishDeal(dealId)
   }
 }
 
