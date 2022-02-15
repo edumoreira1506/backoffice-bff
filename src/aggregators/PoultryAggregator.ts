@@ -32,7 +32,7 @@ export class PoultryAggregator {
     await this._poultryServiceClient.postPoultryImages(breederId, poultryData.id, images)
 
     if (measurement || weight) {
-      await this._poultryServiceClient.postRegister(breederId, poultry.id, {
+      await this._poultryServiceClient.postRegister(breederId, poultryData.id, {
         metadata: { measurement, weight },
         type: RegisterTypeEnum.MeasurementAndWeighing,
       }, [])
