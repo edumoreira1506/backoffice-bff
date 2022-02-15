@@ -29,12 +29,14 @@ export const withDealPermissionFactory = (
     const dealId = req.params.dealId
     const advertisingId = req.params.advertisingId
     const breederId = req.params.breederId
+    const poultryId = req.params.poultryId
 
     const breeder = await poultryServiceClient.getBreeder(breederId)
+    const poultry = await poultryServiceClient.getPoultryDirectly(poultryId) as any
 
-    if (!breeder) throw new NotFoundError()
+    if (!breeder || !poultry) throw new NotFoundError()
 
-    const merchantOfBreeder = await advertisingServiceClient.getMerchants(breeder.id)
+    const merchantOfBreeder = await advertisingServiceClient.getMerchants(poultry.breederId)
 
     if (!merchantOfBreeder?.length) throw new NotFoundError()
 
