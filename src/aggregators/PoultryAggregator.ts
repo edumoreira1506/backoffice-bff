@@ -1,24 +1,36 @@
 import {
   PoultryServiceClient as IPoultryServiceClient,
-  AdvertisingServiceClient as IAdvertisingServiceClient
+  AdvertisingServiceClient as IAdvertisingServiceClient,
+  DealServiceClient as IDealServiceClient
 } from '@cig-platform/core'
 import { IMerchant, IPoultry } from '@cig-platform/types'
-import { PoultryGenderCategoryEnum, RegisterTypeEnum } from '@cig-platform/enums'
+import { DealEventValueEnum, PoultryGenderCategoryEnum, RegisterTypeEnum } from '@cig-platform/enums'
 
 import PoultryServiceClient from '@Clients/PoultryServiceClient'
 import AdvertisingServiceClient from '@Clients/AdvertisingServiceClient'
-import AdvertisingRunningError from '@Errors/AdvertisingRunningError'
+import DealServiceClient from '@Clients/DealServiceClient'
+import DealRunningError from '@Errors/DealRunningError'
+import DealAggregator from '@Aggregators/DealAggregator'
+import AdvertisingAggregator from './AdvertisingAggregator'
 
 export class PoultryAggregator {
   private _poultryServiceClient: IPoultryServiceClient;
   private _advertisingServiceClient: IAdvertisingServiceClient;
+  private _dealServiceClient: IDealServiceClient;
   
-  constructor(poultryServiceClient: IPoultryServiceClient, advertisingServiceClient: IAdvertisingServiceClient) {
+  constructor(
+    poultryServiceClient: IPoultryServiceClient,
+    advertisingServiceClient: IAdvertisingServiceClient,
+    dealServiceClient: IDealServiceClient
+  ) {
     this._poultryServiceClient = poultryServiceClient
     this._advertisingServiceClient = advertisingServiceClient
+    this._dealServiceClient = dealServiceClient
 
     this.postPoultry = this.postPoultry.bind(this)
     this.getPoultries = this.getPoultries.bind(this)
+    this.transferPoultry = this.transferPoultry.bind(this)
+    this.updatePoultry = this.updatePoultry.bind(this)
   }
 
   async postPoultry(
@@ -48,8 +60,30 @@ export class PoultryAggregator {
     merchantId: string
   ) {
     const advertisings = await this._advertisingServiceClient.getAdvertisings(merchantId, poultryId, false)
+    const advertising = advertisings?.[0]
 
-    if (advertisings.length) throw new AdvertisingRunningError()
+    if (advertising) {
+      const deals = await this._dealServiceClient.getDeals({ advertisingId: advertising.id })
+      const dealEvents = await Promise.all(deals.map(async deal => this._dealServiceClient.getDealEvents(deal.id)))
+      const hasConfirmedDeals = dealEvents.some((events) =>
+        events.some(e => e.value === DealEventValueEnum.confirmed) &&
+        events.every(e => e.value !== DealEventValueEnum.cancelled) &&
+        events.every(e => e.value !== DealEventValueEnum.received)
+      )
+
+      if (hasConfirmedDeals) throw new DealRunningError()
+
+      deals.map(async deal => {
+        await DealAggregator.cancelDeal(deal.id, 'Anúncio cancelado')
+      })
+
+      await AdvertisingAggregator.removeAdvertising({
+        advertisingId: advertising.id,
+        merchantId,
+        breederId,
+        poultryId
+      })
+    }
 
     const poultry = await this._poultryServiceClient.getPoultry(breederId, poultryId)
 
@@ -112,4 +146,8 @@ export class PoultryAggregator {
   }
 }
 
-export default new PoultryAggregator(PoultryServiceClient, AdvertisingServiceClient)
+export default new PoultryAggregator(
+  PoultryServiceClient,
+  AdvertisingServiceClient,
+  DealServiceClient
+)

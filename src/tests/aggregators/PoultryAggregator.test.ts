@@ -14,7 +14,12 @@ describe('PoultryAggregator', () => {
         postPoultryImages: jest.fn()
       }
       const mockAdvertisingServiceClient: any = {}
-      const poultryAggregator = new PoultryAggregator(mockPoultryServiceClient, mockAdvertisingServiceClient)
+      const mockDealServiceClient: any = {}
+      const poultryAggregator = new PoultryAggregator(
+        mockPoultryServiceClient,
+        mockAdvertisingServiceClient,
+        mockDealServiceClient
+      )
 
       await poultryAggregator.postPoultry(poultry, breederId, images)
 
@@ -33,7 +38,12 @@ describe('PoultryAggregator', () => {
         getPoultries: jest.fn().mockResolvedValue(poultries),
       }
       const mockAdvertisingServiceClient: any = {}
-      const poultryAggregator = new PoultryAggregator(mockPoultryServiceClient, mockAdvertisingServiceClient)
+      const mockDealServiceClient: any = {}
+      const poultryAggregator = new PoultryAggregator(
+        mockPoultryServiceClient,
+        mockAdvertisingServiceClient,
+        mockDealServiceClient
+      )
 
       const result = await poultryAggregator.getPoultries(breederId)
 
