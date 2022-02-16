@@ -7,10 +7,10 @@ import {
 import DealServiceClient from '@Clients/DealServiceClient'
 import PoultryServiceClient from '@Clients/PoultryServiceClient'
 import AdvertisingServiceClient from '@Clients/AdvertisingServiceClient'
-import { DealEventValueEnum } from '@cig-platform/enums'
+import { DealEventValueEnum, RegisterTypeEnum } from '@cig-platform/enums'
 import AlreadyConfirmedError from '@Errors/AlreadyConfirmedError'
 import FinishedDealError from '@Errors/FinishedDealError'
-import { IMerchant } from '@cig-platform/types'
+import { IMerchant, IPoultry } from '@cig-platform/types'
 import PoultryAggregator from './PoultryAggregator'
 
 export class DealAggregator {
@@ -42,12 +42,13 @@ export class DealAggregator {
       const advertising = await this._advertisingServiceClient.getAdvertising(deal.sellerId, deal.advertisingId)
       const sellerMerchant = await this._advertisingServiceClient.getMerchant(deal.sellerId)
       const buyerMerchant = await this._advertisingServiceClient.getMerchant(deal.buyerId)
-      const poultry = await this._poultryServiceClient.getPoultryDirectly(advertising.externalId)
+      const poultry = await this._poultryServiceClient.getPoultryDirectly(advertising.externalId) as IPoultry & { breederId: string; }
+      const measurementsAndWeight = await this._poultryServiceClient.getRegisters(poultry.breederId, poultry.id, RegisterTypeEnum.MeasurementAndWeighing)
       const breeder = await this._poultryServiceClient.getBreeder(
         merchantId === sellerMerchant.id ? buyerMerchant.externalId : sellerMerchant.externalId
       )
 
-      return { deal, advertising, poultry, breeder }
+      return { deal, advertising, poultry, breeder, measurementsAndWeight }
     }))
 
     return dealsWithPoultryAndAdvertising
