@@ -93,10 +93,18 @@ export class DealAggregator {
     )
   }
 
-  async confirmDeal(dealId: string) {
+  async confirmDeal({ dealId, advertisingId }: { dealId: string; advertisingId: string; }) {
     const events = await this._dealServiceClient.getDealEvents(dealId)
 
     if (events.some(event => event.value === DealEventValueEnum.confirmed)) throw new AlreadyConfirmedError()
+
+    const deals = await this._dealServiceClient.getDeals({ advertisingId })
+
+    deals.forEach(deal => {
+      if (deal.id !== dealId) {
+        this.cancelDeal(deal.id, 'Anúncio foi comprado por outro criador')
+      }
+    })
 
     return this._dealServiceClient.registerDealEvent(dealId, {
       value: DealEventValueEnum.confirmed,

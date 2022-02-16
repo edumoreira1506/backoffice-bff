@@ -42,8 +42,9 @@ class DealController {
   @BaseController.actionHandler(i18n.__('common.updated'))
   async confirm(req: AuthenticatedRequest) {
     const dealId = req.params.dealId
+    const advertisingId = req.params.advertisingId
 
-    await DealAggregator.confirmDeal(dealId)
+    await DealAggregator.confirmDeal({ dealId, advertisingId })
   }
 
   @BaseController.errorHandler()
