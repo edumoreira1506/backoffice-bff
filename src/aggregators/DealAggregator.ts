@@ -43,12 +43,12 @@ export class DealAggregator {
       const sellerMerchant = await this._advertisingServiceClient.getMerchant(deal.sellerId)
       const buyerMerchant = await this._advertisingServiceClient.getMerchant(deal.buyerId)
       const poultry = await this._poultryServiceClient.getPoultryDirectly(advertising.externalId) as IPoultry & { breederId: string; }
-      const measurementsAndWeight = await this._poultryServiceClient.getRegisters(poultry.breederId, poultry.id, RegisterTypeEnum.MeasurementAndWeighing)
+      const measurementAndWeight = await this._poultryServiceClient.getRegisters(poultry.breederId, poultry.id, RegisterTypeEnum.MeasurementAndWeighing)
       const breeder = await this._poultryServiceClient.getBreeder(
         merchantId === sellerMerchant.id ? buyerMerchant.externalId : sellerMerchant.externalId
       )
 
-      return { deal, advertising, poultry, breeder, measurementsAndWeight }
+      return { deal, advertising, poultry, breeder, measurementAndWeight }
     }))
 
     return dealsWithPoultryAndAdvertising
