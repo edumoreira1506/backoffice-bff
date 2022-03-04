@@ -58,10 +58,14 @@ export class AdvertisingAggregator {
   async updateAdvertising({
     merchantId,
     advertisingId,
-    price
+    price,
+    breederId,
+    poultryId
   }: {
     merchantId: string;
     advertisingId: string;
+    breederId: string;
+    poultryId: string;
     price: number;
   }) {
     const deals = await this._dealServiceClient.getDeals({ advertisingId })
@@ -75,6 +79,9 @@ export class AdvertisingAggregator {
     if (hasConfirmedDeals) throw new DealRunningError()
 
     await this._advertisingServiceClient.updateAdvertising(merchantId, advertisingId, price)
+    await this._poultryServiceClient.updatePoultry(breederId, poultryId, {
+      currentAdvertisingPrice: price
+    })
   }
 
   async removeAdvertising({

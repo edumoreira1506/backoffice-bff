@@ -53,9 +53,11 @@ class AdvertisingController {
 
     const merchantId = merchant.id
     const advertisingId = req.params.advertisingId
+    const breederId = req.params.breederId
+    const poultryId = req.params.poultryId
     const price = Number(req.body.price)
 
-    await AdvertisingAggregator.updateAdvertising({ advertisingId, merchantId, price })
+    await AdvertisingAggregator.updateAdvertising({ advertisingId, merchantId, price, breederId, poultryId })
   }
 }
 
