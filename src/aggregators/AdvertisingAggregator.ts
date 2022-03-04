@@ -47,7 +47,10 @@ export class AdvertisingAggregator {
       },
       []
     )
-    await this._poultryServiceClient.updatePoultry(breederId, poultryId, { forSale: true })
+    await this._poultryServiceClient.updatePoultry(breederId, poultryId, {
+      forSale: true,
+      currentAdvertisingPrice: advertisingData.price
+    })
 
     return advertisingData
   }
@@ -113,7 +116,10 @@ export class AdvertisingAggregator {
       },
       []
     )
-    await this._poultryServiceClient.updatePoultry(breederId, poultryId, { forSale: false })
+    await this._poultryServiceClient.updatePoultry(breederId, poultryId, {
+      forSale: false,
+      currentAdvertisingPrice: null
+    })
   }
 }
 
