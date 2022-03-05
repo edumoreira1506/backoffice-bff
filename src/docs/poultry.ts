@@ -29,7 +29,10 @@ const poultryDocs = {
       title: 'Get deals',
       description: 'Route to get deals',
       headerParams: [{ type: 'string', name: 'X-Cig-Token' }],
-      queryParams: [{ type: 'string', name: 'as' }]
+      queryParams: [
+        { type: 'string', name: 'as' },
+        { type: 'string', name: 'page' },
+      ]
     }
   ], { pathVariables: [{ type: 'string', name: 'breederId' }] }),
   ...createDoc('/breeders/{breederId}/poultries/{poultryId}', ['Poultries'], [

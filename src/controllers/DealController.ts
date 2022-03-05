@@ -21,9 +21,10 @@ class DealController {
     if (!merchant) throw new AuthError()
 
     const filter = String(req?.query?.as ?? 'SELLER')
-    const deals = await DealAggregator.getDeals(filter, merchant)
+    const page = Number(req?.query?.page ?? 0)
+    const data = await DealAggregator.getDeals(filter, merchant, page)
 
-    return BaseController.successResponse(res, { deals })
+    return BaseController.successResponse(res, data)
   }
 
   @BaseController.errorHandler()
