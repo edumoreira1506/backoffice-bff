@@ -68,7 +68,7 @@ export class AdvertisingAggregator {
     poultryId: string;
     price: number;
   }) {
-    const deals = await this._dealServiceClient.getDeals({ advertisingId })
+    const { deals } = await this._dealServiceClient.getDeals({ advertisingId })
     const dealEvents = await Promise.all(deals.map(async deal => this._dealServiceClient.getDealEvents(deal.id)))
     const hasConfirmedDeals = dealEvents.some((events) =>
       events.some(e => e.value === DealEventValueEnum.confirmed) &&
@@ -95,7 +95,7 @@ export class AdvertisingAggregator {
     breederId: string,
     poultryId: string,
   }) {
-    const deals = await this._dealServiceClient.getDeals({ advertisingId })
+    const { deals } = await this._dealServiceClient.getDeals({ advertisingId })
     const dealEvents = await Promise.all(deals.map(async deal => this._dealServiceClient.getDealEvents(deal.id)))
     const hasConfirmedDeals = dealEvents.some((events) =>
       events.some(e => e.value === DealEventValueEnum.confirmed) &&

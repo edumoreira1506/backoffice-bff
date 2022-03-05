@@ -63,7 +63,7 @@ export class PoultryAggregator {
     const advertising = advertisings?.[0]
 
     if (advertising) {
-      const deals = await this._dealServiceClient.getDeals({ advertisingId: advertising.id })
+      const { deals } = await this._dealServiceClient.getDeals({ advertisingId: advertising.id })
       const dealEvents = await Promise.all(deals.map(async deal => this._dealServiceClient.getDealEvents(deal.id)))
       const hasConfirmedDeals = dealEvents.some((events) =>
         events.some(e => e.value === DealEventValueEnum.confirmed) &&

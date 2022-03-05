@@ -34,10 +34,10 @@ export class DealAggregator {
     this.getDeal = this.getDeal.bind(this)
   }
 
-  async getDeals(filter: string, merchant: IMerchant) {
+  async getDeals(filter: string, merchant: IMerchant, page = 0) {
     const merchantId = merchant.id
     const params = filter === 'SELLER' ? { sellerId: merchantId } : { buyerId: merchantId }
-    const deals = await this._dealServiceClient.getDeals(params)
+    const { deals, pages } = await this._dealServiceClient.getDeals({ ...params, page })
     const dealsWithPoultryAndAdvertising = await Promise.all(deals.map(async (deal) => {
       const advertising = await this._advertisingServiceClient.getAdvertising(deal.sellerId, deal.advertisingId)
       const sellerMerchant = await this._advertisingServiceClient.getMerchant(deal.sellerId)
@@ -53,7 +53,7 @@ export class DealAggregator {
       return { deal, advertising, poultry, breeder, measurementAndWeight, mainImage }
     }))
 
-    return dealsWithPoultryAndAdvertising
+    return { deals: dealsWithPoultryAndAdvertising, pages }
   }
 
   async getDeal(merchant: IMerchant, dealId: string) {
@@ -108,7 +108,7 @@ export class DealAggregator {
 
     const deals = await this._dealServiceClient.getDeals({ advertisingId })
 
-    deals.forEach(deal => {
+    deals.deals.forEach(deal => {
       if (deal.id !== dealId) {
         this.cancelDeal(deal.id, 'Anúncio foi comprado por outro criador')
       }
