@@ -13,9 +13,9 @@ import DealRunningError from '@Errors/DealRunningError'
 import DealAggregator from '@Aggregators/DealAggregator'
 
 export class AdvertisingAggregator {
-  private _advertisingServiceClient: IAdvertisingServiceClient;
-  private _poultryServiceClient: IPoultryServiceClient;
-  private _dealServiceClient: IDealServiceClient;
+  private _advertisingServiceClient: IAdvertisingServiceClient
+  private _poultryServiceClient: IPoultryServiceClient
+  private _dealServiceClient: IDealServiceClient
   
   constructor(
     advertisingServiceClient: IAdvertisingServiceClient,

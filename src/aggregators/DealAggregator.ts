@@ -14,9 +14,9 @@ import { IMerchant, IPoultry } from '@cig-platform/types'
 import PoultryAggregator from './PoultryAggregator'
 
 export class DealAggregator {
-  private _dealServiceClient: IDealServiceClient;
-  private _poultryServiceClient: IPoultryServiceClient;
-  private _advertisingServiceClient: IAdvertisingServiceClient;
+  private _dealServiceClient: IDealServiceClient
+  private _poultryServiceClient: IPoultryServiceClient
+  private _advertisingServiceClient: IAdvertisingServiceClient
   
   constructor(
     dealServiceClient: IDealServiceClient,

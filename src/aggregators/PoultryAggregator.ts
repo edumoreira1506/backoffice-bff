@@ -14,9 +14,9 @@ import DealAggregator from '@Aggregators/DealAggregator'
 import AdvertisingAggregator from './AdvertisingAggregator'
 
 export class PoultryAggregator {
-  private _poultryServiceClient: IPoultryServiceClient;
-  private _advertisingServiceClient: IAdvertisingServiceClient;
-  private _dealServiceClient: IDealServiceClient;
+  private _poultryServiceClient: IPoultryServiceClient
+  private _advertisingServiceClient: IAdvertisingServiceClient
+  private _dealServiceClient: IDealServiceClient
   
   constructor(
     poultryServiceClient: IPoultryServiceClient,
