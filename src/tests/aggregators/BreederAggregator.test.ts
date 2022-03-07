@@ -1,4 +1,4 @@
-import faker from 'faker'
+import faker from '@faker-js/faker'
 import { breederFactory } from '@cig-platform/factories'
 
 import { BreederAggregator } from '@Aggregators/BreederAggregator'
@@ -40,6 +40,23 @@ describe('BreederAggregator', () => {
 
       expect(mockPoultryServiceClient.removeBreederImage).toHaveBeenCalledTimes(1)
       expect(mockPoultryServiceClient.removeBreederImage).toHaveBeenCalledWith(breederId, deletedImages[0])
+    })
+
+    it('removes the deletedContacts', async () => {
+      const breeder = breederFactory()
+      const breederId = breeder.id
+      const deletedContacts = [faker.datatype.uuid()]
+      const mockPoultryServiceClient: any = {
+        removeBreederContact: jest.fn(),
+        updateBreeder: jest.fn(),
+        postBreederImages: jest.fn()
+      }
+      const breederAggregator = new BreederAggregator(mockPoultryServiceClient)
+
+      await breederAggregator.updateBreederInfo(breederId, breeder, [], [], deletedContacts)
+
+      expect(mockPoultryServiceClient.removeBreederContact).toHaveBeenCalledTimes(1)
+      expect(mockPoultryServiceClient.removeBreederContact).toHaveBeenCalledWith(breederId, deletedContacts[0])
     })
 
     it('register the new images', async () => {

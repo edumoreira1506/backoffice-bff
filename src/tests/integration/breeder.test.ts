@@ -89,6 +89,7 @@ describe('Breeder actions', () => {
         breeder: {
           ...breeder,
           foundationDate: breeder.foundationDate.toISOString(),
+          createdAt: breeder.createdAt.toISOString(),
         }
       })
       expect(mockGetBreederInfo).toHaveBeenCalledWith(breeder.id)

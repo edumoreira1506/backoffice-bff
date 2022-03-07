@@ -4,7 +4,7 @@ import { IBreeder, IBreederContact } from '@cig-platform/types'
 import PoultryServiceClient from '@Clients/PoultryServiceClient'
 
 export class BreederAggregator {
-  private _poultryServiceClient: IPoultryServiceClient;
+  private _poultryServiceClient: IPoultryServiceClient
   
   constructor(poultryServiceClient: IPoultryServiceClient) {
     this._poultryServiceClient = poultryServiceClient
