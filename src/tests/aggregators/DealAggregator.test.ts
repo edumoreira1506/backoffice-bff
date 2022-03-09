@@ -120,7 +120,7 @@ describe('DealAggregator', () => {
       expect(mockPoultryServiceClient.getPoultryDirectly).toHaveBeenCalledWith(advertising.externalId)
       expect(mockAdvertisingServiceClient.getMerchant).toHaveBeenCalledTimes(2)
       expect(mockPoultryServiceClient.getBreeder).toHaveBeenCalled()
-      expect(mockPoultryServiceClient.getBreederContacts).toHaveBeenCalledWith(breeder.id)
+      expect(mockPoultryServiceClient.getBreederContacts).toHaveBeenCalled()
       expect(mockDealServiceClient.getDealEvents).toHaveBeenCalledWith(deal.id)
     })
   })
