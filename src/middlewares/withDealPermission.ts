@@ -25,7 +25,7 @@ export const withDealPermissionFactory = (
 
     if (!user || !merchant) throw new AuthError()
 
-    const merchantId = req.merchant.id
+    const merchantId = req?.merchant?.id
     const dealId = req.params.dealId
     const advertisingId = req.params.advertisingId
     const breederId = req.params.breederId
@@ -70,7 +70,7 @@ export const withDirectlyDealPermissionFactory = (
 
     if (!user || !merchant) throw new AuthError()
 
-    const merchantId = req.merchant.id
+    const merchantId = req?.merchant?.id
     const dealId = req.params.dealId
     const breederId = req.params.breederId
 

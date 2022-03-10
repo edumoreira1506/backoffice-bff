@@ -60,9 +60,13 @@ class PoultryController {
 
   @BaseController.errorHandler()
   async show(req: AuthenticatedRequest, res: Response) {
+    const merchant = req.merchant
     const breederId = req.params.breederId
     const poultryId = req.params.poultryId
-    const data = await PoultryAggregator.getPoultry(req.merchant, breederId, poultryId)
+
+    if (!merchant) throw new AuthError()
+
+    const data = await PoultryAggregator.getPoultry(merchant, breederId, poultryId)
 
     return BaseController.successResponse(res, data)
   }
