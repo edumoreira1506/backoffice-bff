@@ -11,7 +11,7 @@ class RegisterController {
 
   @BaseController.errorHandler()
   async store(req: Request, res: Response) {
-    const register = JSON.parse(req.body?.register ?? '{}')
+    const register = BaseController.jsonStringToObject(req.body?.register)
     const breederId = req.params.breederId
     const poultryId = req.params.poultryId
     const files = (req.files ?? {}) as Record<string, any[]>

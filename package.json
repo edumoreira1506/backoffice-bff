@@ -17,7 +17,7 @@
 	"homepage": "",
 	"dependencies": {
 		"@cig-platform/auth-bff-client": "^0.1.11",
-		"@cig-platform/core": "^0.8.3",
+		"@cig-platform/core": "^0.8.4",
 		"@cig-platform/docs": "^0.4.6",
 		"@cig-platform/enums": "^0.0.6",
 		"@cig-platform/types": "0.0.35",
