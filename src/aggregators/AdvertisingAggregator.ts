@@ -33,9 +33,21 @@ export class AdvertisingAggregator {
 
   async postAdvertising(advertising: Partial<IAdvertising>, merchantId: string, breederId: string) {
     const poultryId = advertising.externalId ?? ''
-    const advertisingData = await this._advertisingServiceClient.postAdvertising(merchantId, advertising)
     const poultry = await this._poultryServiceClient.getPoultry(breederId, poultryId)
     const breeder = await this._poultryServiceClient.getBreeder(breederId)
+    const advertisingData = await this._advertisingServiceClient.postAdvertising(merchantId, {
+      ...advertising,
+      metadata: {
+        ...(poultry?.crest ? { crest: poultry.crest } : {}),
+        ...(poultry?.description ? { description: poultry.description } : {}),
+        ...(poultry?.dewlap ? { dewlap: poultry.dewlap } : {}),
+        ...(poultry?.gender ? { gender: poultry.gender } : {}),
+        ...(poultry?.genderCategory ? { genderCategory: poultry.genderCategory } : {}),
+        ...(poultry?.name ? { name: poultry.name } : {}),
+        ...(poultry?.tail ? { tail: poultry.tail } : {}),
+        ...(poultry?.type ? { type: poultry.type } : {}),
+      }
+    })
 
     await this._poultryServiceClient.postRegister(
       breederId,

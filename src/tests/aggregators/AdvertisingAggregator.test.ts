@@ -29,7 +29,22 @@ describe('AdvertisingAggregator', () => {
 
       await advertisingAggregator.postAdvertising(advertising, merchant.id, breeder.id)
 
-      expect(fakeAdvertisingServiceClient.postAdvertising).toHaveBeenCalledWith(merchant.id, advertising)
+      expect(fakeAdvertisingServiceClient.postAdvertising).toHaveBeenCalledWith(
+        merchant.id,
+        {
+          ...advertising,
+          metadata: {
+            crest: poultry.crest,
+            description: poultry.description,
+            dewlap: poultry.dewlap,
+            gender: poultry.gender,
+            genderCategory: poultry.genderCategory,
+            name: poultry.name,
+            tail: poultry.tail,
+            type: poultry.type,
+          }
+        }
+      )
       expect(fakePoultryServiceClient.getPoultry).toHaveBeenCalledWith(breeder.id, advertising.externalId)
       expect(fakePoultryServiceClient.getBreeder).toBeCalledWith(breeder.id)
       expect(fakePoultryServiceClient.postRegister).toHaveBeenCalledWith(
