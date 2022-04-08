@@ -27,14 +27,15 @@ class PoultryController {
 
   @BaseController.errorHandler()
   @BaseController.actionHandler(i18n.__('common.updated'))
-  async update(req: Request) {
+  async update(req: AuthenticatedRequest) {
     const breederId = req.params.breederId
     const poultryId = req.params.poultryId
     const poultry = BaseController.jsonStringToObject(req.body?.poultry)
     const files = (req.files ?? {}) as Record<string, any[]>
     const deletedImages = (req.body.deletedImages ?? '').split(',').filter(Boolean)
+    const merchantId = req.merchant?.id
 
-    await PoultryAggregator.updatePoultry(breederId, poultryId, poultry, files?.files, deletedImages)
+    await PoultryAggregator.updatePoultry(breederId, poultryId, poultry, files?.files, deletedImages, merchantId)
   }
 
   @BaseController.errorHandler()

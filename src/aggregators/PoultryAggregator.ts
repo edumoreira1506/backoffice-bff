@@ -109,7 +109,8 @@ export class PoultryAggregator {
     poultryId: string,
     poultry: Partial<IPoultry>,
     images: File[] = [],
-    deletedImages: string[] = []
+    deletedImages: string[] = [],
+    merchantId = ''
   ) {
     await this._poultryServiceClient.updatePoultry(breederId, poultryId, poultry)
     await this._poultryServiceClient.postPoultryImages(breederId, poultryId, images)
@@ -117,6 +118,25 @@ export class PoultryAggregator {
     deletedImages.forEach(async (deletedImageId) => {
       await this._poultryServiceClient.removePoultryImage(breederId, poultryId, deletedImageId)
     })
+
+    const advertisings = await this._advertisingServiceClient.getAdvertisings(merchantId, poultry.id, false)
+
+    if (advertisings.length) {
+      await this._advertisingServiceClient.updateAdvertising({
+        merchantId,
+        advertisingId: advertisings[0].id,
+        metadata: {
+          ...(poultry?.crest ? { crest: poultry.crest } : {}),
+          ...(poultry?.description ? { description: poultry.description } : {}),
+          ...(poultry?.dewlap ? { dewlap: poultry.dewlap } : {}),
+          ...(poultry?.gender ? { gender: poultry.gender } : {}),
+          ...(poultry?.genderCategory ? { genderCategory: poultry.genderCategory } : {}),
+          ...(poultry?.name ? { name: poultry.name } : {}),
+          ...(poultry?.tail ? { tail: poultry.tail } : {}),
+          ...(poultry?.type ? { type: poultry.type } : {}),
+        }
+      })
+    }
   }
 
   async getPoultries(breederId: string) {
