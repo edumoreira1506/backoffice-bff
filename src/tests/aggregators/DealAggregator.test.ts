@@ -172,12 +172,12 @@ describe('DealAggregator', () => {
         { value: DealEventValueEnum.received, metadata: {} }
       )
       expect(mockDealServiceClient.updateDeal).toHaveBeenCalledWith(deal.id, { finished: true })
-      expect(mockAdvertisingServiceClient.updateAdvertising).toHaveBeenCalledWith(
-        merchant.id,
-        advertising.id,
-        advertising.price,
-        true
-      )
+      expect(mockAdvertisingServiceClient.updateAdvertising).toHaveBeenCalledWith({
+        merchantId: merchant.id,
+        advertisingId: advertising.id,
+        price: advertising.price,
+        finished: true
+      })
       expect(mockPoultryServiceClient.updatePoultry).toHaveBeenCalledWith(
         breeder.id,
         poultry.id,

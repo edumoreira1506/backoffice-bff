@@ -90,7 +90,11 @@ export class AdvertisingAggregator {
 
     if (hasConfirmedDeals) throw new DealRunningError()
 
-    await this._advertisingServiceClient.updateAdvertising(merchantId, advertisingId, price)
+    await this._advertisingServiceClient.updateAdvertising({
+      advertisingId,
+      merchantId,
+      price,
+    })
     await this._poultryServiceClient.updatePoultry(breederId, poultryId, {
       currentAdvertisingPrice: price
     })

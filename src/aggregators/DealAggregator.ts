@@ -87,7 +87,12 @@ export class DealAggregator {
     })
 
     await this._dealServiceClient.updateDeal(dealId, { finished: true })
-    await this._advertisingServiceClient.updateAdvertising(sellerMerchant.id, advertising.id, advertising.price, true)
+    await this._advertisingServiceClient.updateAdvertising({
+      advertisingId: advertising.id,
+      merchantId: sellerMerchant.id,
+      price: advertising.price,
+      finished: true,
+    })
     await this._poultryServiceClient.updatePoultry(sellerBreeder.id, poultryOfAdvertising.id, {
       forSale: false,
       currentAdvertisingPrice: null

@@ -97,11 +97,11 @@ describe('AdvertisingAggregator', () => {
 
       expect(fakeDealServiceClient.getDeals).toHaveBeenCalledWith({ advertisingId: advertising.id })
       expect(fakeDealServiceClient.getDealEvents).not.toHaveBeenCalled()
-      expect(fakeAdvertisingServiceClient.updateAdvertising).toHaveBeenCalledWith(
-        merchant.id,
-        advertising.id,
-        newPrice
-      )
+      expect(fakeAdvertisingServiceClient.updateAdvertising).toHaveBeenCalledWith({
+        merchantId: merchant.id,
+        advertisingId: advertising.id,
+        price: newPrice
+      })
       expect(fakePoultryServiceClient.updatePoultry).toHaveBeenCalledWith(
         breeder.id,
         poultry.id,
