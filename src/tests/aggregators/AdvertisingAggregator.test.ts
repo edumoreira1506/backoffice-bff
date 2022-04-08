@@ -157,7 +157,6 @@ describe('AdvertisingAggregator', () => {
       }
       const fakePoultryServiceClient: any = {
         updatePoultry: jest.fn(),
-        getPoultry: jest.fn().mockResolvedValue(poultry),
         getBreeder: jest.fn().mockResolvedValue(breeder),
         postRegister: jest.fn()
       }
@@ -178,7 +177,6 @@ describe('AdvertisingAggregator', () => {
         advertisingId: advertising.id
       })
       expect(fakeDealServiceClient.getDealEvents).toHaveBeenCalledWith(deal.id)
-      expect(fakePoultryServiceClient.getPoultry).toHaveBeenCalledWith(breeder.id, poultry.id)
       expect(fakePoultryServiceClient.getBreeder).toHaveBeenCalledWith(breeder.id)
       expect(mockCancelDeal).toHaveBeenCalledWith(deal.id, 'Anúncio cancelado')
       expect(fakeAdvertisingServiceClient.removeAdvertising).toHaveBeenCalledWith(merchant.id, advertising.id)
@@ -222,7 +220,6 @@ describe('AdvertisingAggregator', () => {
       }
       const fakePoultryServiceClient: any = {
         updatePoultry: jest.fn(),
-        getPoultry: jest.fn().mockResolvedValue(poultry),
         getBreeder: jest.fn().mockResolvedValue(breeder),
         postRegister: jest.fn()
       }
@@ -242,7 +239,6 @@ describe('AdvertisingAggregator', () => {
         advertisingId: advertising.id
       })
       expect(fakeDealServiceClient.getDealEvents).toHaveBeenCalledWith(deal.id)
-      expect(fakePoultryServiceClient.getPoultry).not.toHaveBeenCalled()
       expect(fakePoultryServiceClient.getBreeder).not.toHaveBeenCalled()
       expect(mockCancelDeal).not.toHaveBeenCalled()
       expect(fakeAdvertisingServiceClient.removeAdvertising).not.toHaveBeenCalled()

@@ -55,7 +55,7 @@ export class AdvertisingAggregator {
       {
         metadata: { advertisingId: advertisingData.id },
         type: RegisterTypeEnum.Advertising,
-        description: `Ave ${poultry.name} anúnciada no ${breeder.name}`
+        description: `Ave anúnciada no ${breeder.name}`
       },
       []
     )
@@ -113,7 +113,6 @@ export class AdvertisingAggregator {
 
     if (hasConfirmedDeals) throw new DealRunningError()
 
-    const poultry = await this._poultryServiceClient.getPoultry(breederId, poultryId)
     const breeder = await this._poultryServiceClient.getBreeder(breederId)
 
     deals.map(async deal => {
@@ -127,7 +126,7 @@ export class AdvertisingAggregator {
       {
         metadata: { advertisingId },
         type: RegisterTypeEnum.RemoveAdvertising,
-        description: `Anúncio da ave ${poultry.name} removido pelo ${breeder.name}`
+        description: `Anúncio removido por ${breeder.name}`
       },
       []
     )
