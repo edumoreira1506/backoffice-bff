@@ -185,7 +185,9 @@ describe('PoultryAggregator', () => {
         postPoultryImages: jest.fn(),
         removePoultryImage: jest.fn(),
       }
-      const mockAdvertisingServiceClient: any = {}
+      const mockAdvertisingServiceClient: any = {
+        getAdvertisings: jest.fn().mockResolvedValue([])
+      }
       const mockDealServiceClient: any = {}
       const poultryAggregator = new PoultryAggregator(
         mockPoultryServiceClient,
