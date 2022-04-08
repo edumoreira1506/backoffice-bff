@@ -78,7 +78,6 @@ describe('PoultryAggregator', () => {
       jest.spyOn(AdvertisingAggregator, 'removeAdvertising').mockImplementation(mockRemoveAdvertising)
       jest.spyOn(DealAggregator, 'cancelDeal').mockImplementation(mockCancelDeal)
       const mockPoultryServiceClient: any = {
-        getPoultry: jest.fn().mockResolvedValue(poultry),
         transferPoultry: jest.fn(),
         getBreeder: jest.fn().mockResolvedValue(breeder),
         postRegister: jest.fn()
@@ -112,7 +111,6 @@ describe('PoultryAggregator', () => {
         breederId: breeder.id,
         poultryId: poultry.id,
       })
-      expect(mockPoultryServiceClient.getPoultry).toHaveBeenCalledWith(breeder.id, poultry.id)
       expect(mockPoultryServiceClient.transferPoultry).toHaveBeenCalledWith(breeder.id, poultry.id, targetBreeder.id)
       expect(mockPoultryServiceClient.getBreeder).toHaveBeenCalledTimes(2)
       expect(mockPoultryServiceClient.getBreeder).toHaveBeenCalledWith(breeder.id)
@@ -135,7 +133,6 @@ describe('PoultryAggregator', () => {
       jest.spyOn(AdvertisingAggregator, 'removeAdvertising').mockImplementation(mockRemoveAdvertising)
       jest.spyOn(DealAggregator, 'cancelDeal').mockImplementation(mockCancelDeal)
       const mockPoultryServiceClient: any = {
-        getPoultry: jest.fn().mockResolvedValue(poultry),
         transferPoultry: jest.fn(),
         getBreeder: jest.fn().mockResolvedValue(breeder),
         postRegister: jest.fn()
@@ -167,7 +164,6 @@ describe('PoultryAggregator', () => {
       expect(mockDealServiceClient.getDealEvents).toHaveBeenCalledWith(deal.id)
       expect(mockCancelDeal).not.toHaveBeenCalled()
       expect(mockRemoveAdvertising).not.toHaveBeenCalled()
-      expect(mockPoultryServiceClient.getPoultry).not.toHaveBeenCalled()
       expect(mockPoultryServiceClient.transferPoultry).not.toHaveBeenCalled()
       expect(mockPoultryServiceClient.getBreeder).not.toHaveBeenCalled()
       expect(mockPoultryServiceClient.postRegister).not.toHaveBeenCalled()
