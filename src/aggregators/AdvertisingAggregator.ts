@@ -61,7 +61,6 @@ export class AdvertisingAggregator {
     )
     await this._poultryServiceClient.updatePoultry(breederId, poultryId, {
       forSale: true,
-      currentAdvertisingPrice: advertisingData.price
     })
 
     return advertisingData
@@ -71,13 +70,9 @@ export class AdvertisingAggregator {
     merchantId,
     advertisingId,
     price,
-    breederId,
-    poultryId
   }: {
     merchantId: string;
     advertisingId: string;
-    breederId: string;
-    poultryId: string;
     price: number;
   }) {
     const { deals } = await this._dealServiceClient.getDeals({ advertisingId })
@@ -94,9 +89,6 @@ export class AdvertisingAggregator {
       advertisingId,
       merchantId,
       price,
-    })
-    await this._poultryServiceClient.updatePoultry(breederId, poultryId, {
-      currentAdvertisingPrice: price
     })
   }
 
@@ -141,7 +133,6 @@ export class AdvertisingAggregator {
     )
     await this._poultryServiceClient.updatePoultry(breederId, poultryId, {
       forSale: false,
-      currentAdvertisingPrice: null
     })
   }
 }

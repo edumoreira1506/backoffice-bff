@@ -95,7 +95,6 @@ export class DealAggregator {
     })
     await this._poultryServiceClient.updatePoultry(sellerBreeder.id, poultryOfAdvertising.id, {
       forSale: false,
-      currentAdvertisingPrice: null
     })
 
     await PoultryAggregator.transferPoultry(
