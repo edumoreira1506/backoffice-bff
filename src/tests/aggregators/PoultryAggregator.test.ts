@@ -175,9 +175,10 @@ describe('PoultryAggregator', () => {
   })
 
   describe('.updatePoultry', () => {
-    it('update poultry, post poultry images and remove poultry images', async () => {
+    it('update poultry, advertising, post poultry images and remove poultry images', async () => {
       const poultry = poultryFactory()
       const breeder = breederFactory()
+      const advertising = advertisingFactory()
       const deletedImages = ['Example']
       const images = [] as any[]
       const mockPoultryServiceClient: any = {
@@ -186,7 +187,8 @@ describe('PoultryAggregator', () => {
         removePoultryImage: jest.fn(),
       }
       const mockAdvertisingServiceClient: any = {
-        getAdvertisings: jest.fn().mockResolvedValue([])
+        getAdvertisings: jest.fn().mockResolvedValue([advertising]),
+        updateAdvertising: jest.fn()
       }
       const mockDealServiceClient: any = {}
       const poultryAggregator = new PoultryAggregator(
@@ -195,11 +197,25 @@ describe('PoultryAggregator', () => {
         mockDealServiceClient
       )
 
-      await poultryAggregator.updatePoultry(breeder.id, poultry.id, poultry, images, deletedImages)
+      await poultryAggregator.updatePoultry(breeder.id, poultry.id, poultry, images, deletedImages, advertising.merchantId)
 
       expect(mockPoultryServiceClient.updatePoultry).toHaveBeenCalledWith(breeder.id, poultry.id, poultry)
       expect(mockPoultryServiceClient.postPoultryImages).toHaveBeenCalledWith(breeder.id, poultry.id, images)
       expect(mockPoultryServiceClient.removePoultryImage).toHaveBeenCalledTimes(deletedImages.length)
+      expect(mockAdvertisingServiceClient.updateAdvertising).toHaveBeenCalledWith({
+        merchantId: advertising.merchantId,
+        advertisingId: advertising.id,
+        metadata: {
+          crest: poultry.crest,
+          description: poultry.description,
+          dewlap: poultry.dewlap,
+          gender: poultry.gender,
+          genderCategory: poultry.genderCategory,
+          name: poultry.name,
+          tail: poultry.tail,
+          type: poultry.type,
+        }
+      })
 
       deletedImages.forEach(deletedImage => {
         expect(mockPoultryServiceClient.removePoultryImage).toHaveBeenCalledWith(breeder.id, poultry.id, deletedImage)
