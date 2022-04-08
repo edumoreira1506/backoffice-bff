@@ -59,7 +59,7 @@ describe('AdvertisingAggregator', () => {
       expect(fakePoultryServiceClient.updatePoultry).toHaveBeenCalledWith(
         breeder.id,
         advertising.externalId,
-        { forSale: true, currentAdvertisingPrice: advertising.price }
+        { forSale: true }
       )
     })
   })
@@ -69,7 +69,6 @@ describe('AdvertisingAggregator', () => {
       const newPrice = 150000
       const advertising = advertisingFactory()
       const breeder = breederFactory()
-      const poultry = poultryFactory()
       const merchant = merchantFactory({ externalId: breeder.id })
       const fakeDealServiceClient: any = {
         getDeals: jest.fn().mockResolvedValue({ deals: [] }),
@@ -78,9 +77,7 @@ describe('AdvertisingAggregator', () => {
       const fakeAdvertisingServiceClient: any = {
         updateAdvertising: jest.fn()
       }
-      const fakePoultryServiceClient: any = {
-        updatePoultry: jest.fn()
-      }
+      const fakePoultryServiceClient: any = {}
       const advertisingAggregator = new AdvertisingAggregator(
         fakeAdvertisingServiceClient,
         fakePoultryServiceClient,
@@ -89,9 +86,7 @@ describe('AdvertisingAggregator', () => {
 
       await advertisingAggregator.updateAdvertising({
         advertisingId: advertising.id,
-        breederId: breeder.id,
         merchantId: merchant.id,
-        poultryId: poultry.id,
         price: newPrice
       })
 
@@ -102,20 +97,12 @@ describe('AdvertisingAggregator', () => {
         advertisingId: advertising.id,
         price: newPrice
       })
-      expect(fakePoultryServiceClient.updatePoultry).toHaveBeenCalledWith(
-        breeder.id,
-        poultry.id,
-        {
-          currentAdvertisingPrice: newPrice
-        }
-      )
     })
 
     it('throwns an error when has confirmed deals', async () => {
       const newPrice = 150000
       const advertising = advertisingFactory()
       const breeder = breederFactory()
-      const poultry = poultryFactory()
       const deal = dealFactory()
       const merchant = merchantFactory({ externalId: breeder.id })
       const fakeDealServiceClient: any = {
@@ -139,9 +126,7 @@ describe('AdvertisingAggregator', () => {
 
       await expect(advertisingAggregator.updateAdvertising({
         advertisingId: advertising.id,
-        breederId: breeder.id,
         merchantId: merchant.id,
-        poultryId: poultry.id,
         price: newPrice
       })).rejects.toThrow(DealRunningError)
 
@@ -211,7 +196,6 @@ describe('AdvertisingAggregator', () => {
         poultry.id,
         {
           forSale: false,
-          currentAdvertisingPrice: null
         }
       )
     })

@@ -181,7 +181,7 @@ describe('DealAggregator', () => {
       expect(mockPoultryServiceClient.updatePoultry).toHaveBeenCalledWith(
         breeder.id,
         poultry.id,
-        { forSale: false, currentAdvertisingPrice: null }
+        { forSale: false }
       )
       expect(mockTransferPoultry).toHaveBeenCalledWith(
         breeder.id,
