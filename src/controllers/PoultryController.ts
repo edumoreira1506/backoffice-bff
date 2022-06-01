@@ -4,7 +4,6 @@ import { AuthenticatedRequest } from '@cig-platform/types'
 
 import PoultryAggregator from '@Aggregators/PoultryAggregator'
 import i18n from '@Configs/i18n'
-import PoultryServiceClient from '@Clients/PoultryServiceClient'
 
 class PoultryController {
   constructor() {
@@ -46,7 +45,7 @@ class PoultryController {
     const breederId = req.params.breederId
     const poultryId = req.params.poultryId
 
-    await PoultryServiceClient.killPoultry(breederId, poultryId)
+    await PoultryAggregator.killPoultry(breederId, poultryId)
   }
 
   @BaseController.errorHandler()

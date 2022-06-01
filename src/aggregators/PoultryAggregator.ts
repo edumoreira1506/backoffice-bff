@@ -53,6 +53,23 @@ export class PoultryAggregator {
     return poultryData
   }
 
+  async killPoultry(
+    breederId: string,
+    poultryId: string
+  ) {
+    await this._poultryServiceClient.killPoultry(breederId, poultryId)
+
+    await this._poultryServiceClient.postRegister(
+      breederId,
+      poultryId,
+      {
+        type: RegisterTypeEnum.Death,
+        description: 'Comunicado de morte'
+      },
+      []
+    )
+  }
+
   async transferPoultry(
     breederId: string,
     poultryId: string,

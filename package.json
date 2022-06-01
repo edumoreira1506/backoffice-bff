@@ -19,7 +19,7 @@
 		"@cig-platform/auth-bff-client": "^0.1.12",
 		"@cig-platform/core": "^0.10.10",
 		"@cig-platform/docs": "^0.4.6",
-		"@cig-platform/enums": "^0.0.6",
+		"@cig-platform/enums": "^0.0.7",
 		"@cig-platform/types": "0.0.41",
 		"cors": "^2.8.5",
 		"dotenv": "^16.0.0",
