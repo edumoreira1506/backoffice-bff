@@ -41,7 +41,7 @@
 		"@babel/plugin-proposal-decorators": "^7.17.9",
 		"@babel/preset-env": "^7.16.11",
 		"@babel/preset-typescript": "^7.16.7",
-		"@cig-platform/factories": "0.0.21",
+		"@cig-platform/factories": "0.0.22",
 		"@faker-js/faker": "^6.1.2",
 		"@types/cors": "^2.8.12",
 		"@types/dotenv": "^8.2.0",
