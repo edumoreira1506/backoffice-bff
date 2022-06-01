@@ -99,6 +99,13 @@ router.post(
 )
 
 router.post(
+  '/breeders/:breederId/poultries/:poultryId/kill',
+  withTokenAuthorization,
+  withBreederPermission,
+  PoultryController.kill
+)
+
+router.post(
   '/breeders/:breederId/poultries/:poultryId/advertisings',
   withBodyValidation(storeAdvertisingSchema),
   withTokenAuthorization,

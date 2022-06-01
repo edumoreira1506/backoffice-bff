@@ -173,6 +173,18 @@ const poultryDocs = {
       { type: 'string', name: 'poultryId' },
     ]
   }),
+  ...createDoc('/breeders/{breederId}/poultries/{poultryId}/kill', ['Kill poultry'], [
+    {
+      method: 'post',
+      title: 'Kill poultry',
+      headerParams: [{ type: 'string', name: 'X-Cig-Token' }],
+    },
+  ], {
+    pathVariables: [
+      { type: 'string', name: 'breederId' },
+      { type: 'string', name: 'poultryId' },
+    ]
+  }),
   ...createDoc('/breeders/{breederId}/deals/{dealId}', ['Deal'], [
     {
       method: 'get',
