@@ -12,5 +12,6 @@
 	"deal.errors.already-confirmed": "Compra já foi confirmada",
 	"deal.errors.finished-deal": "Compra já foi encerrada",
 	"transfer.errors.advertising-running": "Ave possui um anúncio ativo aberto",
-	"advertising.errors.deal-running": "Anúncio possui uma negociação em andamento"
+	"advertising.errors.deal-running": "Anúncio possui uma negociação em andamento",
+	"errors.not-found": "Não encontrado"
 }
