@@ -1,4 +1,5 @@
 import { advertisingFactory, breederFactory, dealFactory, merchantFactory, poultryFactory } from '@cig-platform/factories'
+import { NotFoundError } from '@cig-platform/core'
 
 import { AdvertisingAggregator } from '@Aggregators/AdvertisingAggregator'
 import { DealEventValueEnum, RegisterTypeEnum } from '@cig-platform/enums'
@@ -7,7 +8,7 @@ import DealAggregator from '@Aggregators/DealAggregator'
 
 describe('AdvertisingAggregator', () => {
   describe('postAdvertising', () => {
-    it('register info in poultry history and change current advertising price', async () => {
+    it('register info in poultry history', async () => {
       const advertising = advertisingFactory()
       const breeder = breederFactory()
       const poultry = poultryFactory()
@@ -61,6 +62,35 @@ describe('AdvertisingAggregator', () => {
         advertising.externalId,
         { forSale: true }
       )
+    })
+
+    it('does not register info in poultry history when poultry is not alive', async () => {
+      const advertising = advertisingFactory()
+      const breeder = breederFactory()
+      const poultry = poultryFactory({ isAlive: false })
+      const merchant = merchantFactory({ externalId: breeder.id })
+      const fakeAdvertisingServiceClient: any = {
+        postAdvertising: jest.fn().mockResolvedValue(advertising)
+      }
+      const fakePoultryServiceClient: any = {
+        getPoultry: jest.fn().mockResolvedValue(poultry),
+        getBreeder: jest.fn().mockResolvedValue(breeder),
+        postRegister: jest.fn(),
+        updatePoultry: jest.fn()
+      }
+      const advertisingAggregator = new AdvertisingAggregator(
+        fakeAdvertisingServiceClient,
+        fakePoultryServiceClient,
+        {} as any
+      )
+
+      await expect(advertisingAggregator.postAdvertising(advertising, merchant.id, breeder.id)).rejects.toThrow(NotFoundError)
+
+      expect(fakeAdvertisingServiceClient.postAdvertising).not.toHaveBeenCalled()
+      expect(fakePoultryServiceClient.getPoultry).toHaveBeenCalledWith(breeder.id, advertising.externalId)
+      expect(fakePoultryServiceClient.getBreeder).toBeCalledWith(breeder.id)
+      expect(fakePoultryServiceClient.postRegister).not.toHaveBeenCalled()
+      expect(fakePoultryServiceClient.updatePoultry).not.toHaveBeenCalled()
     })
   })
 

@@ -1,7 +1,8 @@
 import {
   AdvertisingServiceClient as IAdvertisingServiceClient,
   PoultryServiceClient as IPoultryServiceClient,
-  DealServiceClient as IDealServiceClient
+  DealServiceClient as IDealServiceClient,
+  NotFoundError
 } from '@cig-platform/core'
 import { IAdvertising } from '@cig-platform/types'
 import { DealEventValueEnum, RegisterTypeEnum } from '@cig-platform/enums'
@@ -35,6 +36,9 @@ export class AdvertisingAggregator {
     const poultryId = advertising.externalId ?? ''
     const poultry = await this._poultryServiceClient.getPoultry(breederId, poultryId)
     const breeder = await this._poultryServiceClient.getBreeder(breederId)
+
+    if (!poultry.isAlive) throw new NotFoundError()
+    
     const advertisingData = await this._advertisingServiceClient.postAdvertising(merchantId, {
       ...advertising,
       metadata: {
