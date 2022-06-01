@@ -55,8 +55,27 @@ export class PoultryAggregator {
 
   async killPoultry(
     breederId: string,
-    poultryId: string
+    poultryId: string,
+    merchantId: string
   ) {
+    const advertisings = await this._advertisingServiceClient.getAdvertisings(merchantId, poultryId, false)
+    const advertising = advertisings?.[0]
+
+    if (advertising) {
+      const { deals } = await this._dealServiceClient.getDeals({ advertisingId: advertising.id })
+
+      deals.filter(deal => !deal.finished && !deal.cancelled).forEach(async deal => {
+        await DealAggregator.cancelDeal(deal.id, 'Ave morreu')
+      })
+
+      await AdvertisingAggregator.removeAdvertising({
+        advertisingId: advertising.id,
+        merchantId,
+        breederId,
+        poultryId
+      })
+    }
+    
     await this._poultryServiceClient.killPoultry(breederId, poultryId)
 
     await this._poultryServiceClient.postRegister(
@@ -90,7 +109,7 @@ export class PoultryAggregator {
 
       if (hasConfirmedDeals) throw new DealRunningError()
 
-      deals.map(async deal => {
+      deals.filter(deal => !deal.finished && !deal.cancelled).map(async deal => {
         await DealAggregator.cancelDeal(deal.id, 'Anúncio cancelado')
       })
 

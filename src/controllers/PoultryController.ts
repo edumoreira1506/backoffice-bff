@@ -44,8 +44,11 @@ class PoultryController {
   async kill(req: AuthenticatedRequest) {
     const breederId = req.params.breederId
     const poultryId = req.params.poultryId
+    const merchant = req.merchant
 
-    await PoultryAggregator.killPoultry(breederId, poultryId)
+    if (!merchant) throw new AuthError()
+
+    await PoultryAggregator.killPoultry(breederId, poultryId, merchant.id)
   }
 
   @BaseController.errorHandler()
