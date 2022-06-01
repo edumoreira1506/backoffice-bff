@@ -76,8 +76,6 @@ export class PoultryAggregator {
       })
     }
     
-    await this._poultryServiceClient.killPoultry(breederId, poultryId)
-
     await this._poultryServiceClient.postRegister(
       breederId,
       poultryId,
@@ -87,6 +85,8 @@ export class PoultryAggregator {
       },
       []
     )
+    
+    await this._poultryServiceClient.killPoultry(breederId, poultryId)
   }
 
   async transferPoultry(
