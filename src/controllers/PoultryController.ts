@@ -4,6 +4,7 @@ import { AuthenticatedRequest } from '@cig-platform/types'
 
 import PoultryAggregator from '@Aggregators/PoultryAggregator'
 import i18n from '@Configs/i18n'
+import PoultryServiceClient from '@Clients/PoultryServiceClient'
 
 class PoultryController {
   constructor() {
@@ -12,6 +13,7 @@ class PoultryController {
     this.show = this.show.bind(this)
     this.update = this.update.bind(this)
     this.transfer = this.transfer.bind(this)
+    this.kill = this.kill.bind(this)
   }
 
   @BaseController.errorHandler()
@@ -36,6 +38,15 @@ class PoultryController {
     const merchantId = req.merchant?.id
 
     await PoultryAggregator.updatePoultry(breederId, poultryId, poultry, files?.files, deletedImages, merchantId)
+  }
+
+  @BaseController.errorHandler()
+  @BaseController.actionHandler(i18n.__('common.updated'))
+  async kill(req: AuthenticatedRequest) {
+    const breederId = req.params.breederId
+    const poultryId = req.params.poultryId
+
+    await PoultryServiceClient.killPoultry(breederId, poultryId)
   }
 
   @BaseController.errorHandler()
