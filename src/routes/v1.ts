@@ -12,11 +12,13 @@ import RegisterController from '@Controllers/RegisterController'
 import AdvertisingController from '@Controllers/AdvertisingController'
 import AdvertisingQuestionAnswerController from '@Controllers/AdvertisingQuestionAnswerController'
 import DealController from '@Controllers/DealController'
+import ReviewController from '@Controllers/ReviewController'
 
 import { storeAdvertisingSchema, updateAdvertisingSchema } from '@Schemas/AdvertisingSchemas'
 import { transferPoultrySchema } from '@Schemas/PoultrySchemas'
 import { storeAdvertisingQuestionAnswerSchema } from '@Schemas/AdvertisingQuestionAnswerSchemas'
 import { cancelDealSchema } from '@Schemas/DealSchemas'
+import { storeReviewSchema } from '@Schemas/ReviewSchema'
 
 const router = express.Router()
 
@@ -156,6 +158,14 @@ router.post(
   withTokenAuthorization,
   withDirectlyDealPermission,
   DealController.receive
+)
+
+router.post(
+  '/breeders/:breederId/poultries/:poultryId/advertisings/:advertisingId/deals/:dealId/reviews',
+  withBodyValidation(storeReviewSchema),
+  withTokenAuthorization,
+  withDirectlyDealPermission,
+  ReviewController.store
 )
 
 export default router
