@@ -3,7 +3,7 @@ import { createDoc } from '@cig-platform/docs'
 import { storeAdvertisingQuestionAnswerSchema } from '@Schemas/AdvertisingQuestionAnswerSchemas'
 import { storeAdvertisingSchema, updateAdvertisingSchema } from '@Schemas/AdvertisingSchemas'
 import { cancelDealSchema } from '@Schemas/DealSchemas'
-import { storePoultrySchema, transferPoultrySchema, updatePoultrySchema } from '@Schemas/PoultrySchemas'
+import { storePoultryParentsSchema, storePoultrySchema, transferPoultrySchema, updatePoultrySchema } from '@Schemas/PoultrySchemas'
 import { storeRegisterSchema } from '@Schemas/RegisterSchema'
 import { storeReviewSchema } from '@Schemas/ReviewSchema'
 
@@ -212,6 +212,19 @@ const poultryDocs = {
     pathVariables: [
       { type: 'string', name: 'breederId' },
       { type: 'string', name: 'dealId' },
+    ]
+  }),
+  ...createDoc('/breeders/{breederId}/poultries/{poultryId}/parents', ['Poultries'], [
+    {
+      method: 'post',
+      title: 'Store poultry parents',
+      headerParams: [{ type: 'string', name: 'X-Cig-Token' }],
+      objectSchema: storePoultryParentsSchema
+    },
+  ], {
+    pathVariables: [
+      { type: 'string', name: 'breederId' },
+      { type: 'string', name: 'poultryId' },
     ]
   }),
 }
