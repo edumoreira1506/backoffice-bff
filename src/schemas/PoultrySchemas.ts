@@ -13,3 +13,8 @@ export const updatePoultrySchema = Joi.object({
 export const transferPoultrySchema = Joi.object({
   breederId: Joi.string().required(),
 })
+
+export const storePoultryParentsSchema = Joi.object({
+  dadId: Joi.string(),
+  momId: Joi.string()
+})
