@@ -8,6 +8,7 @@ import i18n from '@Configs/i18n'
 class PoultryController {
   constructor() {
     this.store = this.store.bind(this)
+    this.storeParents = this.storeParents.bind(this)
     this.index = this.index.bind(this)
     this.show = this.show.bind(this)
     this.update = this.update.bind(this)
@@ -24,6 +25,18 @@ class PoultryController {
     const poultryData = await PoultryAggregator.postPoultry(poultry, breederId, files?.files, measurementAndWeight)
 
     return BaseController.successResponse(res, { poultry: poultryData })
+  }
+
+  @BaseController.errorHandler()
+  @BaseController.actionHandler(i18n.__('common.updated'))
+  async storeParents(req: Request) {
+    const breederId = req.params.breederId
+    const poultryId = req.params.poultryId
+    
+    await PoultryAggregator.updatePoultry(breederId, poultryId, {
+      ...(req.body.momId ? { momId: req.body.momId } : {}),
+      ...(req.body.dadId ? { dadId: req.body.dadId } : {}),
+    })
   }
 
   @BaseController.errorHandler()

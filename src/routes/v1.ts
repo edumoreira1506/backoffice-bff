@@ -15,7 +15,7 @@ import DealController from '@Controllers/DealController'
 import ReviewController from '@Controllers/ReviewController'
 
 import { storeAdvertisingSchema, updateAdvertisingSchema } from '@Schemas/AdvertisingSchemas'
-import { transferPoultrySchema } from '@Schemas/PoultrySchemas'
+import { storePoultryParentsSchema, transferPoultrySchema } from '@Schemas/PoultrySchemas'
 import { storeAdvertisingQuestionAnswerSchema } from '@Schemas/AdvertisingQuestionAnswerSchemas'
 import { cancelDealSchema } from '@Schemas/DealSchemas'
 import { storeReviewSchema } from '@Schemas/ReviewSchema'
@@ -105,6 +105,14 @@ router.post(
   withTokenAuthorization,
   withBreederPermission,
   PoultryController.kill
+)
+
+router.post(
+  '/breeders/:breederId/poultries/:poultryId/parents',
+  withBodyValidation(storePoultryParentsSchema),
+  withTokenAuthorization,
+  withBreederPermission,
+  PoultryController.storeParents
 )
 
 router.post(
